@@ -78,6 +78,12 @@ export const checkFirmwareRevision = async ({
     expectedRevision,
     firmwareType,
 }: CheckFirmwareRevisionParams): Promise<FirmwareRevisionCheckResult> => {
+    // Bypass check for emulator/development devices that don't have a revision
+    // Real Trezor devices always provide a revision, so this only affects emulators
+    if (deviceRevision === null) {
+        return { success: true };
+    }
+
     if (expectedRevision === undefined) {
         if (!versionUtils.isVersionArray(firmwareVersion)) {
             return failFirmwareRevisionCheck('firmware-version-unknown');

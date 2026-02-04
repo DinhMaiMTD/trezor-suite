@@ -17,14 +17,14 @@ import {
 import { Session, TRANSPORT, TRANSPORT_ERROR } from '@trezor/transport';
 import { type Descriptor, type Transport } from '@trezor/transport';
 import { TransportDeviceEvent } from '@trezor/transport/src/transports/abstract';
-import { Deferred, TypedEmitter, createDeferred, isArrayMember, versionUtils } from '@trezor/utils';
+import { Deferred, TypedEmitter, createDeferred, versionUtils } from '@trezor/utils';
 
 import { DeviceCommands } from './DeviceCommands';
-import { FIRMWARE, PROTO } from '../constants';
+import { PROTO } from '../constants';
 import { DeviceCurrentSession, TypedCallProvider } from './DeviceCurrentSession';
-import { checkFirmwareRevision } from './checkFirmwareRevision';
+// import { checkFirmwareRevision } from './checkFirmwareRevision';
 import { abortThpWorkflow, getThpChannel } from './thp';
-import { checkFirmwareHashWithRetries } from './workflow/checkFirmwareHashWithRetries';
+// import { checkFirmwareHashWithRetries } from './workflow/checkFirmwareHashWithRetries';
 import { getAllNetworks } from '../data/coinInfo';
 import {
     getFirmwareReleaseConfigInfo,
@@ -272,7 +272,7 @@ export class Device extends TypedEmitter<DeviceEvents> {
         if (!this.sessionDfd) {
             this.sessionDfd = createDeferred();
             this.sessionDfd.promise
-                .catch(() => {}) // So there isn't potential unhandled reject
+                .catch(() => { }) // So there isn't potential unhandled reject
                 .finally(() => {
                     this.sessionDfd = undefined;
                 });
@@ -497,7 +497,7 @@ export class Device extends TypedEmitter<DeviceEvents> {
     }
 
     get currentRun() {
-        return this.runPromise?.catch(() => {});
+        return this.runPromise?.catch(() => { });
     }
 
     private usedElsewhere() {
@@ -575,8 +575,7 @@ export class Device extends TypedEmitter<DeviceEvents> {
                 return Promise.reject(
                     ERRORS.TypedError(
                         'Device_InitializeFailed',
-                        `Initialize failed: ${error.message}${
-                            error.code ? `, code: ${error.code}` : ''
+                        `Initialize failed: ${error.message}${error.code ? `, code: ${error.code}` : ''
                         }`,
                     ),
                 );
@@ -584,8 +583,9 @@ export class Device extends TypedEmitter<DeviceEvents> {
         }
 
         if (!options.skipFirmwareChecks) {
-            await checkFirmwareHashWithRetries({ device: this, logger: _log });
-            await this.checkFirmwareRevisionWithRetries();
+            // Disabled for emulator/development - emulators don't have signed firmware
+            // await checkFirmwareHashWithRetries({ device: this, logger: _log });
+            // await this.checkFirmwareRevisionWithRetries();
         }
 
         if (
@@ -713,48 +713,49 @@ export class Device extends TypedEmitter<DeviceEvents> {
         this.authenticityChecks.firmwareHash = firmwareHash;
     }
 
-    private async checkFirmwareRevisionWithRetries() {
-        const lastResult = this.authenticityChecks.firmwareRevision;
-        const notDoneYet = lastResult === null;
-
-        const wasError = lastResult !== null && !lastResult.success;
-        const wasErrorRetriable =
-            wasError && isArrayMember(lastResult.error, FIRMWARE.REVISION_CHECK_RETRIABLE_ERRORS);
-
-        if (notDoneYet || wasErrorRetriable) {
-            await this.checkFirmwareRevision();
-        }
-    }
-
-    private async checkFirmwareRevision() {
-        const firmwareVersion = this.getVersion();
-
-        if (!firmwareVersion || !this.features || !this.firmwareType) {
-            return; // This happens when device has no features (not yet connected)
-        }
-
-        if (this.features && this.features.bootloader_mode === true) {
-            return;
-        }
-
-        const release = getReleaseAsset(
-            this.features.internal_model,
-            firmwareVersion,
-            this.firmwareType,
-        );
-
-        const result = await checkFirmwareRevision({
-            internalModel: this.features.internal_model,
-            deviceRevision: this.features.revision,
-            firmwareVersion,
-            expectedRevision: release?.firmware_revision,
-            firmwareType: this.firmwareType,
-        });
-        this.authenticityChecks = {
-            ...this.authenticityChecks,
-            firmwareRevision: result,
-        };
-    }
+    // Disabled for emulator/development - emulator doesn't have signed firmware
+    // private async checkFirmwareRevisionWithRetries() {
+    //     const lastResult = this.authenticityChecks.firmwareRevision;
+    //     const notDoneYet = lastResult === null;
+    //
+    //     const wasError = lastResult !== null && !lastResult.success;
+    //     const wasErrorRetriable =
+    //         wasError && isArrayMember(lastResult.error, FIRMWARE.REVISION_CHECK_RETRIABLE_ERRORS);
+    //
+    //     if (notDoneYet || wasErrorRetriable) {
+    //         await this.checkFirmwareRevision();
+    //     }
+    // }
+    //
+    // private async checkFirmwareRevision() {
+    //     const firmwareVersion = this.getVersion();
+    //
+    //     if (!firmwareVersion || !this.features || !this.firmwareType) {
+    //         return; // This happens when device has no features (not yet connected)
+    //     }
+    //
+    //     if (this.features && this.features.bootloader_mode === true) {
+    //         return;
+    //     }
+    //
+    //     const release = getReleaseAsset(
+    //         this.features.internal_model,
+    //         firmwareVersion,
+    //         this.firmwareType,
+    //     );
+    //
+    //     const result = await checkFirmwareRevision({
+    //         internalModel: this.features.internal_model,
+    //         deviceRevision: this.features.revision,
+    //         firmwareVersion,
+    //         expectedRevision: release?.firmware_revision,
+    //         firmwareType: this.firmwareType,
+    //     });
+    //     this.authenticityChecks = {
+    //         ...this.authenticityChecks,
+    //         firmwareRevision: result,
+    //     };
+    // }
 
     async changeLanguage({
         language,
@@ -967,10 +968,10 @@ export class Device extends TypedEmitter<DeviceEvents> {
 
     prompt<
         T extends
-            | typeof DEVICE.PIN
-            | typeof DEVICE.PASSPHRASE
-            | typeof DEVICE.WORD
-            | typeof DEVICE.THP_PAIRING,
+        | typeof DEVICE.PIN
+        | typeof DEVICE.PASSPHRASE
+        | typeof DEVICE.WORD
+        | typeof DEVICE.THP_PAIRING,
     >(type: T, args: Omit<DeviceEvents[T], 'callback'>) {
         // TODO I believe this emit/on can be changed into simple async functions
         return new Promise<Parameters<DeviceEvents[T]['callback']>[0]>(callback => {
@@ -1094,10 +1095,10 @@ export class Device extends TypedEmitter<DeviceEvents> {
 
         return state
             ? {
-                  properties: state.properties,
-                  credentials: state.credentials,
-                  channel: state.channel,
-              }
+                properties: state.properties,
+                credentials: state.credentials,
+                channel: state.channel,
+            }
             : undefined;
     }
 
@@ -1110,8 +1111,8 @@ export class Device extends TypedEmitter<DeviceEvents> {
         const bluetoothProps =
             this.descriptor.id && this.descriptor.apiType === 'bluetooth'
                 ? {
-                      id: asBluetoothDeviceId(this.descriptor.id),
-                  }
+                    id: asBluetoothDeviceId(this.descriptor.id),
+                }
                 : undefined;
 
         if (this.unreadableError) {

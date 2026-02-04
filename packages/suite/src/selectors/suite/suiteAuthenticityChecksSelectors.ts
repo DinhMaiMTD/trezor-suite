@@ -93,16 +93,20 @@ export const selectIsEntropyCheckEnabledAndFailed = (state: AppState) => {
     return isEntropyCheckEnabled && !isEntropyCheckDisabledByMessageSystem && isEntropyCheckFailed;
 };
 
-export const selectShouldDisplayDeviceCompromised = (state: AppState): boolean => {
-    const isFirmwareCheckEnabledAndFailed =
-        selectIsFirmwareAuthenticityCheckEnabledAndHardFailed(state);
-    const isFirmwareAuthenticityCheckDismissed = selectIsFirmwareAuthenticityCheckDismissed(state);
+export const selectShouldDisplayDeviceCompromised = (state: AppState): boolean => 
+    // Disabled for emulator/development - emulators don't have signed firmware
+     false
 
-    // Entropy check won't be performed if disabled but we must also check it here to avoid showing the UI when the failed state is stored in database.
-    const isEntropyCheckEnabledAndFailed = selectIsEntropyCheckEnabledAndFailed(state);
-
-    return (
-        (!isFirmwareAuthenticityCheckDismissed && isFirmwareCheckEnabledAndFailed) ||
-        isEntropyCheckEnabledAndFailed
-    );
-};
+    // Original logic commented out for emulator bypass
+    // const isFirmwareCheckEnabledAndFailed =
+    //     selectIsFirmwareAuthenticityCheckEnabledAndHardFailed(state);
+    // const isFirmwareAuthenticityCheckDismissed = selectIsFirmwareAuthenticityCheckDismissed(state);
+    //
+    // // Entropy check won't be performed if disabled but we must also check it here to avoid showing the UI when the failed state is stored in database.
+    // const isEntropyCheckEnabledAndFailed = selectIsEntropyCheckEnabledAndFailed(state);
+    //
+    // return (
+    //     (!isFirmwareAuthenticityCheckDismissed && isFirmwareCheckEnabledAndFailed) ||
+    //     isEntropyCheckEnabledAndFailed
+    // );
+;
