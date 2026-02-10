@@ -499,6 +499,21 @@ export const networks = {
         coingeckoId: 'zcash',
         tradeCryptoId: 'zcash',
     },
+    ckb: {
+        symbol: 'ckb',
+        displaySymbol: 'CKB',
+        name: 'Nervos Network',
+        networkType: 'bitcoin',
+        bip43Path: "m/44'/309'/i'",
+        decimals: 8,
+        testnet: false,
+        explorer: getExplorerUrls('https://explorer.nervos.org', 'bitcoin'),
+        features: ['sign-verify'],
+        backendTypes: ['blockbook'],
+        accountTypes: {},
+        coingeckoId: 'nervos-network',
+        tradeCryptoId: 'nervos-network',
+    },
     // testnets
     test: {
         symbol: 'test',
@@ -666,6 +681,21 @@ export const networks = {
         coingeckoId: undefined,
         tradeCryptoId: undefined,
     },
+    tckb: {
+        symbol: 'tckb',
+        displaySymbol: 'tCKB',
+        name: 'Nervos Testnet',
+        networkType: 'bitcoin',
+        bip43Path: "m/44'/1'/i'",
+        decimals: 8,
+        testnet: true,
+        explorer: getExplorerUrls('https://pudge.explorer.nervos.org', 'bitcoin'),
+        features: ['sign-verify'],
+        backendTypes: [],
+        accountTypes: {},
+        coingeckoId: undefined,
+        tradeCryptoId: undefined,
+    },
 } as const satisfies Networks;
 
 type NetworksConfigs = typeof networks;
@@ -678,8 +708,8 @@ export type NetworkDisplaySymbol = NetworkConfig['displaySymbol'];
 
 export type NetworkWithFeature<TFeature extends NetworkFeature> = {
     [S in keyof NetworksConfigs]: TFeature extends NetworksConfigs[S]['features'][number]
-        ? NetworksConfigs[S]
-        : never;
+    ? NetworksConfigs[S]
+    : never;
 }[keyof NetworksConfigs];
 
 export type StakingNetworkSymbol = NetworkWithFeature<'staking'>['symbol'];
