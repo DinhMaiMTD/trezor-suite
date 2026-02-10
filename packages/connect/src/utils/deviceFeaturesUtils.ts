@@ -104,6 +104,9 @@ export const getUnavailableCapabilities = (features: Features, coins: CoinInfo[]
         if (info.shortcut === 'SOL' || info.shortcut === 'DSOL') {
             return !capabilities.includes('Capability_Solana');
         }
+        if (info.shortcut === 'CKB' || info.shortcut === 'tCKB') {
+            return false;
+        }
 
         return !isArrayMember(`Capability_${info.name}`, capabilities);
     });

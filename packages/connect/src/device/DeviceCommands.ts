@@ -266,6 +266,19 @@ export const DeviceCommands = (deviceTypedCall: TypedCallProvider) => {
             };
         }
 
+        if (coinInfo.shortcut === 'CKB' || coinInfo.shortcut === 'tCKB') {
+            const network = coinInfo.shortcut === 'tCKB' ? 'Testnet' : undefined;
+            const { message } = await typedCall('CKBGetAddress', 'CKBAddress', {
+                address_n,
+                network,
+            });
+
+            return {
+                descriptor: message.address,
+                address_n,
+            };
+        }
+
         throw ERRORS.TypedError(
             'Runtime',
             'DeviceCommands.getAccountDescriptor: unsupported coinInfo.type',

@@ -30,6 +30,7 @@ import { changeLanguage } from './changeLanguage';
 import { changePin } from './changePin';
 import { changeWipeCode } from './changeWipeCode';
 import { cipherKeyValue } from './cipherKeyValue';
+import { ckbGetAddress } from './ckbGetAddress';
 import { composeTransaction } from './composeTransaction';
 import { discoverAccounts } from './discoverAccounts';
 import { dispose } from './dispose';
@@ -195,6 +196,9 @@ export interface TrezorConnect {
 
     // https://connect.trezor.io/9/methods/other/cipherKeyValue/
     cipherKeyValue: typeof cipherKeyValue;
+
+    // https://connect.trezor.io/9/methods/ckb/ckbGetAddress/
+    ckbGetAddress: typeof ckbGetAddress;
 
     // todo: link docs
     evoluGetNode: typeof evoluGetNode;

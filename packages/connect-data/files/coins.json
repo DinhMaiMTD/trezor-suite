@@ -2638,6 +2638,46 @@
             }
         },
         {
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": ["https://ckb.trezor.io"]
+            },
+            "curve": "secp256k1",
+            "decimals": 8,
+            "is_testnet": false,
+            "name": "Nervos Network",
+            "shortcut": "CKB",
+            "slip44": 309,
+            "support": {
+                "T1B1": false,
+                "T2B1": "2.10.1",
+                "T2T1": "2.10.1",
+                "T3B1": "2.10.1",
+                "T3T1": "2.10.1",
+                "T3W1": "2.10.1"
+            }
+        },
+        {
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": ["https://tckb.trezor.io"]
+            },
+            "curve": "secp256k1",
+            "decimals": 8,
+            "is_testnet": true,
+            "name": "Nervos Network Testnet",
+            "shortcut": "tCKB",
+            "slip44": 309,
+            "support": {
+                "T1B1": false,
+                "T2B1": "2.10.1",
+                "T2T1": "2.10.1",
+                "T3B1": "2.10.1",
+                "T3T1": "2.10.1",
+                "T3W1": "2.10.1"
+            }
+        },
+        {
             "blockchain_link": { "type": "solana", "url": ["https://dsol1.trezor.io"] },
             "curve": "ed25519",
             "decimals": 9,
