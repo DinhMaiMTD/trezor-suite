@@ -24,7 +24,9 @@ import {
 import { Elevation, borders, mapElevationToBackground, mapElevationToBorder } from '@trezor/theme';
 
 import { AssetInitials } from './AssetInitials';
+import { isCoinSymbol } from '../../constants/coins';
 import { LegacyNetworkSymbol, isNetworkSymbolWithIcon } from '../../constants/networks';
+import { CoinLogo } from '../CoinLogo/CoinLogo';
 import { NetworkIcon } from '../NetworkIcon/NetworkIcon';
 
 export const allowedAssetLogoSizes = [20, 24, 32, 40] as const satisfies number[];
@@ -245,12 +247,18 @@ export const AssetLogo = ({
         resolvedLogoCache.set(cacheKey, current);
     };
 
+    const shouldShowCoinFallback =
+        showPlaceholder && !!symbol && !contractAddress && isCoinSymbol(symbol);
+
     return (
         <Container $size={size} {...frameProps}>
-            {showPlaceholder && (
+            {showPlaceholder && !shouldShowCoinFallback && (
                 <AssetInitials size={size} withTooltip={placeholderWithTooltip}>
                     {placeholder}
                 </AssetInitials>
+            )}
+            {shouldShowCoinFallback && (
+                <CoinLogo symbol={symbol} size={size} type="token" />
             )}
             {!showPlaceholder && current && (
                 <ElevationUp>
