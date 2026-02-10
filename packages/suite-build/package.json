@@ -18,6 +18,7 @@
         "build:web": "NODE_ENV=production yarn run web",
         "desktop": "PROJECT=desktop ASSET_PREFIX=. yarn run base",
         "dev:desktop": "yarn run desktop",
+        "dev:desktop:bridge-test": "LAUNCH_ELECTRON=true BRIDGE_TEST=true yarn run desktop",
         "build:desktop": "NODE_ENV=production yarn run desktop",
         "type-check": "yarn g:tsc --build tsconfig.json",
         "type-check:watch": "yarn type-check -- --watch"

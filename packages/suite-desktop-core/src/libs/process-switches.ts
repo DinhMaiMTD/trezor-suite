@@ -24,6 +24,11 @@ export type SuiteSwitch =
  * Check if a switch is present in process arguments.
  */
 export const hasSwitch = (switchName: SuiteSwitch) => {
+    // Special case: bridge-test can be set via environment variable
+    if (switchName === 'bridge-test' && process.env.BRIDGE_TEST === 'true') {
+        return true;
+    }
+
     const isSwitch = new RegExp(`^--${switchName}(?:=[^=]+)?=?$`);
 
     return process.argv.some(arg => isSwitch.test(arg));

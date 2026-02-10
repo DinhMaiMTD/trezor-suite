@@ -30,6 +30,7 @@
         "suite:dev": "yarn workspace @trezor/suite-web dev",
         "suite:dev:vite": "yarn workspace @trezor/suite-web dev:vite",
         "suite:dev:desktop": "yarn workspace @trezor/suite-desktop dev",
+        "suite:dev:desktop:bridge-test": "yarn workspace @trezor/suite-build dev:desktop:bridge-test",
         "native:start": "yarn workspace @suite-native/app start",
         "_______ Testing _______": "Testing, linting, type checking...",
         "type-check": "yarn nx run-many --target=type-check",
