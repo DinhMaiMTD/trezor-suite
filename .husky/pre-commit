@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Unset PREFIX to avoid conflicts with nvm (GitHub Desktop sets this)
+unset PREFIX
+
+# Load nvm to ensure node and yarn are available in PATH
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Ensure yarn is in PATH (it's installed globally via npm)
+export PATH="$HOME/.nvm/versions/node/$(node -v)/bin:$PATH"
+
 script_dir=$(dirname "$(realpath "$0")")
 
 if ! bash "$script_dir/eslint.sh"; then
