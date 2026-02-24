@@ -6,7 +6,9 @@
             "bech32_prefix": "bc",
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://btc.trezor.io"]
+                "url": [
+                    "https://btc.trezor.io"
+                ]
             },
             "blocktime_seconds": 600,
             "cashaddr_prefix": null,
@@ -16,7 +18,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 70, "High": 200, "Low": 10, "Normal": 140 },
+            "default_fee_b": {
+                "Economy": 70,
+                "High": 200,
+                "Low": 10,
+                "Normal": 140
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -51,6 +58,117 @@
             "xpub_magic_segwit_p2sh": 77429938
         },
         {
+            "address_type": 0,
+            "address_type_p2sh": 5,
+            "bech32_prefix": "bc",
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://btc.trezor.io"
+                ]
+            },
+            "blocktime_seconds": 600,
+            "cashaddr_prefix": null,
+            "coin_label": "Nervos CKB",
+            "coin_name": "Bitcoin",
+            "coin_shortcut": "CKB",
+            "curve_name": "secp256k1",
+            "decimals": 8,
+            "decred": false,
+            "default_fee_b": {
+                "Economy": 70,
+                "High": 200,
+                "Low": 10,
+                "Normal": 140
+            },
+            "dust_limit": 546,
+            "extra_data": false,
+            "force_bip143": false,
+            "fork_id": null,
+            "hash_genesis_block": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+            "is_testnet": false,
+            "max_address_length": 34,
+            "maxfee_kb": 2000000,
+            "min_address_length": 27,
+            "minfee_kb": 100,
+            "name": "Nervos CKB",
+            "overwintered": false,
+            "segwit": true,
+            "shortcut": "CKB",
+            "signed_message_header": "Bitcoin Signed Message:\n",
+            "slip44": 0,
+            "support": {
+                "T1B1": "1.5.2",
+                "T2B1": "2.6.1",
+                "T2T1": "2.0.5",
+                "T3B1": "2.8.1",
+                "T3T1": "2.6.1",
+                "T3W1": "2.6.1"
+            },
+            "taproot": true,
+            "timestamp": false,
+            "xprv_magic": 76066276,
+            "xpub_magic": 76067358,
+            "xpub_magic_multisig_segwit_native": 44728019,
+            "xpub_magic_multisig_segwit_p2sh": 43365439,
+            "xpub_magic_segwit_native": 78792518,
+            "xpub_magic_segwit_p2sh": 77429938
+        },
+        {
+            "address_type": 111,
+            "address_type_p2sh": 196,
+            "bech32_prefix": "tb",
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://tbtc4.trezor.io"
+                ]
+            },
+            "blocktime_seconds": 600,
+            "cashaddr_prefix": null,
+            "coin_label": "Nervos CKB Testnet",
+            "coin_name": "Testnet",
+            "coin_shortcut": "tCKB",
+            "curve_name": "secp256k1",
+            "decimals": 8,
+            "decred": false,
+            "default_fee_b": {
+                "Normal": 10
+            },
+            "dust_limit": 546,
+            "extra_data": false,
+            "force_bip143": false,
+            "fork_id": null,
+            "hash_genesis_block": "00000000da84f2bafbbc53dee25a72ae507ff4914b867c565be350b0da8bf043",
+            "is_testnet": true,
+            "max_address_length": 34,
+            "maxfee_kb": 10000000,
+            "min_address_length": 27,
+            "minfee_kb": 1000,
+            "name": "Nervos CKB Testnet",
+            "overwintered": false,
+            "segwit": true,
+            "shortcut": "tCKB",
+            "signed_message_header": "Bitcoin Signed Message:\n",
+            "slip44": 1,
+            "support": {
+                "T1B1": "1.5.2",
+                "T2B1": "2.6.1",
+                "T2T1": "2.0.5",
+                "T3B1": "2.8.1",
+                "T3T1": "2.6.1",
+                "T3W1": "2.6.1"
+            },
+            "taproot": true,
+            "timestamp": false,
+            "xprv_magic": 70615956,
+            "xpub_magic": 70617039,
+            "xpub_magic_multisig_segwit_native": 39277699,
+            "xpub_magic_multisig_segwit_p2sh": 37915119,
+            "xpub_magic_segwit_native": 73342198,
+            "xpub_magic_segwit_p2sh": 71979618
+        },
+        {
             "address_type": 111,
             "address_type_p2sh": 196,
             "bech32_prefix": "bcrt",
@@ -63,7 +181,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -101,7 +221,12 @@
             "address_type": 111,
             "address_type_p2sh": 196,
             "bech32_prefix": "tb",
-            "blockchain_link": { "type": "blockbook", "url": ["https://tbtc4.trezor.io"] },
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://tbtc4.trezor.io"
+                ]
+            },
             "blocktime_seconds": 600,
             "cashaddr_prefix": null,
             "coin_label": "Testnet",
@@ -110,7 +235,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -157,7 +284,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 1000 },
+            "default_fee_b": {
+                "Normal": 1000
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -204,7 +333,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 5460,
             "extra_data": false,
             "force_bip143": false,
@@ -244,7 +375,9 @@
             "bech32_prefix": null,
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://bch.trezor.io"]
+                "url": [
+                    "https://bch.trezor.io"
+                ]
             },
             "blocktime_seconds": 600,
             "cashaddr_prefix": "bitcoincash",
@@ -254,7 +387,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 1 },
+            "default_fee_b": {
+                "Normal": 1
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": true,
@@ -301,7 +436,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": true,
@@ -357,7 +494,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 30 },
+            "default_fee_b": {
+                "Normal": 30
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": true,
@@ -404,7 +543,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 70, "High": 200, "Low": 10, "Normal": 140 },
+            "default_fee_b": {
+                "Economy": 70,
+                "High": 200,
+                "Low": 10,
+                "Normal": 140
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": true,
@@ -451,7 +595,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -498,7 +644,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Low": 10 },
+            "default_fee_b": {
+                "Low": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -536,7 +684,12 @@
             "address_type": 28,
             "address_type_p2sh": 30,
             "bech32_prefix": "cpu",
-            "blockchain_link": { "type": "blockbook", "url": ["https://blockbook.cpuchain.org"] },
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://blockbook.cpuchain.org"
+                ]
+            },
             "blocktime_seconds": 60,
             "cashaddr_prefix": null,
             "coin_label": "CPUchain",
@@ -545,7 +698,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 20 },
+            "default_fee_b": {
+                "Normal": 20
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -592,7 +747,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -648,7 +805,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 5460,
             "extra_data": true,
             "force_bip143": false,
@@ -695,7 +854,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 5460,
             "extra_data": true,
             "force_bip143": false,
@@ -742,7 +903,9 @@
             "curve_name": "secp256k1_decred",
             "decimals": 8,
             "decred": true,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -789,7 +952,9 @@
             "curve_name": "secp256k1_decred",
             "decimals": 8,
             "decred": true,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -829,7 +994,10 @@
             "bech32_prefix": "dgb",
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://dgb1.trezor.io", "https://dgb2.trezor.io"]
+                "url": [
+                    "https://dgb1.trezor.io",
+                    "https://dgb2.trezor.io"
+                ]
             },
             "blocktime_seconds": 15,
             "cashaddr_prefix": null,
@@ -839,7 +1007,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 30 },
+            "default_fee_b": {
+                "Normal": 30
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -879,7 +1049,9 @@
             "bech32_prefix": null,
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://doge.trezor.io"]
+                "url": [
+                    "https://doge.trezor.io"
+                ]
             },
             "blocktime_seconds": 60,
             "cashaddr_prefix": null,
@@ -889,7 +1061,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 1000 },
+            "default_fee_b": {
+                "Normal": 1000
+            },
             "dust_limit": 1000000,
             "extra_data": false,
             "force_bip143": false,
@@ -936,7 +1110,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -983,7 +1159,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 1000 },
+            "default_fee_b": {
+                "Normal": 1000
+            },
             "dust_limit": 54600,
             "extra_data": false,
             "force_bip143": false,
@@ -1030,7 +1208,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 10, "High": 200, "Low": 1, "Normal": 100 },
+            "default_fee_b": {
+                "Economy": 10,
+                "High": 200,
+                "Low": 1,
+                "Normal": 100
+            },
             "dust_limit": 546,
             "extra_data": true,
             "force_bip143": false,
@@ -1077,7 +1260,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 10, "High": 200, "Low": 1, "Normal": 100 },
+            "default_fee_b": {
+                "Economy": 10,
+                "High": 200,
+                "Low": 1,
+                "Normal": 100
+            },
             "dust_limit": 546,
             "extra_data": true,
             "force_bip143": false,
@@ -1124,7 +1312,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 1000 },
+            "default_fee_b": {
+                "Normal": 1000
+            },
             "dust_limit": 546,
             "extra_data": true,
             "force_bip143": false,
@@ -1162,7 +1352,12 @@
             "address_type": 36,
             "address_type_p2sh": 16,
             "bech32_prefix": "fc",
-            "blockchain_link": { "type": "blockbook", "url": ["https://explorer.fujicoin.org"] },
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://explorer.fujicoin.org"
+                ]
+            },
             "blocktime_seconds": 60,
             "cashaddr_prefix": null,
             "coin_label": "Fujicoin",
@@ -1171,7 +1366,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 20000, "High": 100000, "Low": 10000, "Normal": 50000 },
+            "default_fee_b": {
+                "Economy": 20000,
+                "High": 100000,
+                "Low": 10000,
+                "Normal": 50000
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -1211,7 +1411,9 @@
             "bech32_prefix": "grs",
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://blockbook.groestlcoin.org"]
+                "url": [
+                    "https://blockbook.groestlcoin.org"
+                ]
             },
             "blocktime_seconds": 60,
             "cashaddr_prefix": null,
@@ -1221,7 +1423,9 @@
             "curve_name": "secp256k1_groestl",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -1261,7 +1465,9 @@
             "bech32_prefix": "tgrs",
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://blockbook-test.groestlcoin.org"]
+                "url": [
+                    "https://blockbook-test.groestlcoin.org"
+                ]
             },
             "blocktime_seconds": 60,
             "cashaddr_prefix": null,
@@ -1271,7 +1477,9 @@
             "curve_name": "secp256k1_groestl",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -1318,7 +1526,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": true,
             "force_bip143": false,
@@ -1365,7 +1575,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": true,
             "force_bip143": false,
@@ -1405,7 +1617,9 @@
             "bech32_prefix": "ltc",
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://ltc.trezor.io"]
+                "url": [
+                    "https://ltc.trezor.io"
+                ]
             },
             "blocktime_seconds": 150,
             "cashaddr_prefix": null,
@@ -1415,7 +1629,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 1000 },
+            "default_fee_b": {
+                "Normal": 1000
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -1462,7 +1678,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 54600,
             "extra_data": false,
             "force_bip143": false,
@@ -1502,7 +1720,9 @@
             "bech32_prefix": "mona",
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://blockbook.electrum-mona.org"]
+                "url": [
+                    "https://blockbook.electrum-mona.org"
+                ]
             },
             "blocktime_seconds": 90,
             "cashaddr_prefix": null,
@@ -1512,7 +1732,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 1000 },
+            "default_fee_b": {
+                "Normal": 1000
+            },
             "dust_limit": 54600,
             "extra_data": false,
             "force_bip143": false,
@@ -1552,7 +1774,10 @@
             "bech32_prefix": null,
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://nmc1.trezor.io", "https://nmc2.trezor.io"]
+                "url": [
+                    "https://nmc1.trezor.io",
+                    "https://nmc2.trezor.io"
+                ]
             },
             "blocktime_seconds": 600,
             "cashaddr_prefix": null,
@@ -1562,7 +1787,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 2940,
             "extra_data": false,
             "force_bip143": false,
@@ -1600,7 +1827,12 @@
             "address_type": 55,
             "address_type_p2sh": 117,
             "bech32_prefix": "pc",
-            "blockchain_link": { "type": "blockbook", "url": ["https://blockbook.peercoin.net"] },
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://blockbook.peercoin.net"
+                ]
+            },
             "blocktime_seconds": 600,
             "cashaddr_prefix": null,
             "coin_label": "Peercoin",
@@ -1609,7 +1841,9 @@
             "curve_name": "secp256k1",
             "decimals": 6,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 10000,
             "extra_data": false,
             "force_bip143": false,
@@ -1647,7 +1881,12 @@
             "address_type": 111,
             "address_type_p2sh": 196,
             "bech32_prefix": "tpc",
-            "blockchain_link": { "type": "blockbook", "url": ["https://tblockbook.peercoin.net"] },
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://tblockbook.peercoin.net"
+                ]
+            },
             "blocktime_seconds": 600,
             "cashaddr_prefix": null,
             "coin_label": "Peercoin Testnet",
@@ -1656,7 +1895,9 @@
             "curve_name": "secp256k1",
             "decimals": 6,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 10000,
             "extra_data": false,
             "force_bip143": false,
@@ -1703,7 +1944,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -1750,7 +1993,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 500, "High": 2000, "Low": 410, "Normal": 600 },
+            "default_fee_b": {
+                "Economy": 500,
+                "High": 2000,
+                "Low": 410,
+                "Normal": 600
+            },
             "dust_limit": 218400,
             "extra_data": false,
             "force_bip143": false,
@@ -1797,7 +2045,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 500, "High": 2000, "Low": 410, "Normal": 600 },
+            "default_fee_b": {
+                "Economy": 500,
+                "High": 2000,
+                "Low": 410,
+                "Normal": 600
+            },
             "dust_limit": 218400,
             "extra_data": false,
             "force_bip143": false,
@@ -1835,7 +2088,12 @@
             "address_type": 60,
             "address_type_p2sh": 122,
             "bech32_prefix": null,
-            "blockchain_link": { "type": "blockbook", "url": ["https://blockbook.ravencoin.org"] },
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://blockbook.ravencoin.org"
+                ]
+            },
             "blocktime_seconds": 60,
             "cashaddr_prefix": null,
             "coin_label": "Ravencoin",
@@ -1844,7 +2102,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Low": 10 },
+            "default_fee_b": {
+                "Low": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -1891,7 +2151,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Low": 10 },
+            "default_fee_b": {
+                "Low": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -1929,7 +2191,12 @@
             "address_type": 25,
             "address_type_p2sh": 105,
             "bech32_prefix": null,
-            "blockchain_link": { "type": "blockbook", "url": ["https://blockbook.ritocoin.org"] },
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://blockbook.ritocoin.org"
+                ]
+            },
             "blocktime_seconds": 60,
             "cashaddr_prefix": null,
             "coin_label": "Ritocoin",
@@ -1938,7 +2205,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Low": 10 },
+            "default_fee_b": {
+                "Low": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -1985,7 +2254,12 @@
             "curve_name": "secp256k1_smart",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 10, "High": 200, "Low": 1, "Normal": 100 },
+            "default_fee_b": {
+                "Economy": 10,
+                "High": 200,
+                "Low": 1,
+                "Normal": 100
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -2032,7 +2306,12 @@
             "curve_name": "secp256k1_smart",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 10, "High": 200, "Low": 1, "Normal": 100 },
+            "default_fee_b": {
+                "Economy": 10,
+                "High": 200,
+                "Low": 1,
+                "Normal": 100
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -2079,7 +2358,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 70, "High": 200, "Low": 10, "Normal": 140 },
+            "default_fee_b": {
+                "Economy": 70,
+                "High": 200,
+                "Low": 10,
+                "Normal": 140
+            },
             "dust_limit": 1000,
             "extra_data": true,
             "force_bip143": false,
@@ -2117,7 +2401,12 @@
             "address_type": 63,
             "address_type_p2sh": 5,
             "bech32_prefix": "sys",
-            "blockchain_link": { "type": "blockbook", "url": ["https://blockbook.syscoin.org"] },
+            "blockchain_link": {
+                "type": "blockbook",
+                "url": [
+                    "https://blockbook.syscoin.org"
+                ]
+            },
             "blocktime_seconds": 60,
             "cashaddr_prefix": null,
             "coin_label": "Syscoin",
@@ -2126,7 +2415,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 700, "High": 2000, "Low": 100, "Normal": 1400 },
+            "default_fee_b": {
+                "Economy": 700,
+                "High": 2000,
+                "Low": 100,
+                "Normal": 1400
+            },
             "dust_limit": 1820,
             "extra_data": false,
             "force_bip143": false,
@@ -2173,7 +2467,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 50, "High": 160, "Low": 10, "Normal": 100 },
+            "default_fee_b": {
+                "Economy": 50,
+                "High": 160,
+                "Low": 10,
+                "Normal": 100
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -2213,7 +2512,9 @@
             "bech32_prefix": "vips",
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://vips.blockbook.japanesecoin-pool.work"]
+                "url": [
+                    "https://vips.blockbook.japanesecoin-pool.work"
+                ]
             },
             "blocktime_seconds": 120,
             "cashaddr_prefix": null,
@@ -2223,7 +2524,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 500, "High": 2000, "Low": 410, "Normal": 600 },
+            "default_fee_b": {
+                "Economy": 500,
+                "High": 2000,
+                "Low": 410,
+                "Normal": 600
+            },
             "dust_limit": 218400,
             "extra_data": false,
             "force_bip143": false,
@@ -2270,7 +2576,9 @@
             "curve_name": "secp256k1",
             "decimals": 6,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 10000,
             "extra_data": false,
             "force_bip143": false,
@@ -2326,7 +2634,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 1000 },
+            "default_fee_b": {
+                "Normal": 1000
+            },
             "dust_limit": 54600,
             "extra_data": false,
             "force_bip143": false,
@@ -2373,7 +2683,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 7000, "High": 20000, "Low": 1000, "Normal": 14000 },
+            "default_fee_b": {
+                "Economy": 7000,
+                "High": 20000,
+                "Low": 1000,
+                "Normal": 14000
+            },
             "dust_limit": 54600,
             "extra_data": false,
             "force_bip143": false,
@@ -2420,7 +2735,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -2460,7 +2777,9 @@
             "bech32_prefix": null,
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://zec.trezor.io"]
+                "url": [
+                    "https://zec.trezor.io"
+                ]
             },
             "blocktime_seconds": 150,
             "cashaddr_prefix": null,
@@ -2470,7 +2789,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": true,
             "force_bip143": false,
@@ -2517,7 +2838,9 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Normal": 10 },
+            "default_fee_b": {
+                "Normal": 10
+            },
             "dust_limit": 546,
             "extra_data": true,
             "force_bip143": false,
@@ -2564,7 +2887,12 @@
             "curve_name": "secp256k1",
             "decimals": 8,
             "decred": false,
-            "default_fee_b": { "Economy": 70, "High": 200, "Low": 10, "Normal": 140 },
+            "default_fee_b": {
+                "Economy": 70,
+                "High": 200,
+                "Low": 10,
+                "Normal": 140
+            },
             "dust_limit": 546,
             "extra_data": false,
             "force_bip143": false,
@@ -2603,7 +2931,9 @@
         {
             "blockchain_link": {
                 "type": "blockfrost",
-                "url": ["wss://ada.trezor.io"]
+                "url": [
+                    "wss://ada.trezor.io"
+                ]
             },
             "curve": "ed25519",
             "decimals": 6,
@@ -2638,7 +2968,12 @@
             }
         },
         {
-            "blockchain_link": { "type": "solana", "url": ["https://dsol1.trezor.io"] },
+            "blockchain_link": {
+                "type": "solana",
+                "url": [
+                    "https://dsol1.trezor.io"
+                ]
+            },
             "curve": "ed25519",
             "decimals": 9,
             "is_testnet": false,
@@ -2748,7 +3083,12 @@
             }
         },
         {
-            "blockchain_link": { "type": "ripple", "url": ["wss://txrp1.trezor.io"] },
+            "blockchain_link": {
+                "type": "ripple",
+                "url": [
+                    "wss://txrp1.trezor.io"
+                ]
+            },
             "curve": "secp256k1",
             "decimals": 6,
             "is_testnet": false,
@@ -2784,7 +3124,9 @@
         {
             "blockchain_link": {
                 "type": "stellar",
-                "url": ["https://horizon.stellar.org"]
+                "url": [
+                    "https://horizon.stellar.org"
+                ]
             },
             "curve": "ed25519",
             "decimals": 7,
@@ -2804,7 +3146,9 @@
         {
             "blockchain_link": {
                 "type": "blockbook",
-                "url": ["https://tron.trezor.io"]
+                "url": [
+                    "https://tron.trezor.io"
+                ]
             },
             "curve": "secp256k1",
             "decimals": 6,
@@ -2824,7 +3168,9 @@
         {
             "blockchain_link": {
                 "type": "stellar",
-                "url": ["https://horizon-testnet.stellar.org"]
+                "url": [
+                    "https://horizon-testnet.stellar.org"
+                ]
             },
             "curve": "ed25519",
             "decimals": 7,

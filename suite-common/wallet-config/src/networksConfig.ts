@@ -666,6 +666,64 @@ export const networks = {
         coingeckoId: undefined,
         tradeCryptoId: undefined,
     },
+    ckb: {
+        symbol: 'ckb',
+        displaySymbol: 'CKB',
+        name: 'Nervos CKB',
+        networkType: 'bitcoin',
+        bip43Path: "m/84'/0'/i'",
+        decimals: 8,
+        testnet: false,
+        explorer: getExplorerUrls('https://mempool.space', 'bitcoin'),
+        features: ['rbf', 'sign-verify', 'amount-unit', 'graph'],
+        backendTypes: ['blockbook', 'electrum'],
+        accountTypes: {
+            taproot: {
+                accountType: 'taproot',
+                bip43Path: "m/86'/0'/i'",
+                features: ['rbf', 'amount-unit'],
+            },
+            segwit: {
+                accountType: 'segwit',
+                bip43Path: "m/49'/0'/i'",
+            },
+            legacy: {
+                accountType: 'legacy',
+                bip43Path: "m/44'/0'/i'",
+            },
+        },
+        coingeckoId: 'nervos-network',
+        tradeCryptoId: 'nervos-network',
+    },
+    tckb: {
+        symbol: 'tckb',
+        displaySymbol: 'tCKB',
+        name: 'Nervos CKB Testnet',
+        networkType: 'bitcoin',
+        bip43Path: "m/84'/1'/i'",
+        decimals: 8,
+        testnet: true,
+        explorer: getExplorerUrls('https://mempool.space/testnet4', 'bitcoin'),
+        features: ['rbf', 'sign-verify', 'amount-unit', 'graph'],
+        backendTypes: ['blockbook', 'electrum'],
+        accountTypes: {
+            taproot: {
+                accountType: 'taproot',
+                bip43Path: "m/86'/1'/i'",
+                features: ['rbf', 'amount-unit'],
+            },
+            segwit: {
+                accountType: 'segwit',
+                bip43Path: "m/49'/1'/i'",
+            },
+            legacy: {
+                accountType: 'legacy',
+                bip43Path: "m/44'/1'/i'",
+            },
+        },
+        coingeckoId: undefined,
+        tradeCryptoId: undefined,
+    },
 } as const satisfies Networks;
 
 type NetworksConfigs = typeof networks;
@@ -678,8 +736,8 @@ export type NetworkDisplaySymbol = NetworkConfig['displaySymbol'];
 
 export type NetworkWithFeature<TFeature extends NetworkFeature> = {
     [S in keyof NetworksConfigs]: TFeature extends NetworksConfigs[S]['features'][number]
-        ? NetworksConfigs[S]
-        : never;
+    ? NetworksConfigs[S]
+    : never;
 }[keyof NetworksConfigs];
 
 export type StakingNetworkSymbol = NetworkWithFeature<'staking'>['symbol'];

@@ -46,6 +46,14 @@ const getNormalizedTrezorShortcut = (shortcut: string) => {
         return 'XRP';
     }
 
+    // CKB/tCKB use BTC/Testnet backends, normalize shortcut to match blockbook network name
+    if (shortcut === 'CKB') {
+        return 'BTC';
+    }
+    if (shortcut === 'tCKB') {
+        return 'TEST';
+    }
+
     return shortcut;
 };
 

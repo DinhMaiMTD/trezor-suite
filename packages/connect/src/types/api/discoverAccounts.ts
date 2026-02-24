@@ -17,6 +17,14 @@ export const ACCOUNT_TYPES = [
     { symbol: 'regtest', type: 'taproot', path: "m/86'/1'/i'" },
     { symbol: 'regtest', type: 'segwit', path: "m/49'/1'/i'" },
     { symbol: 'regtest', type: 'legacy', path: "m/44'/1'/i'" },
+    { symbol: 'ckb', type: 'normal', path: "m/84'/0'/i'" },
+    { symbol: 'ckb', type: 'taproot', path: "m/86'/0'/i'" },
+    { symbol: 'ckb', type: 'segwit', path: "m/49'/0'/i'" },
+    { symbol: 'ckb', type: 'legacy', path: "m/44'/0'/i'" },
+    { symbol: 'tckb', type: 'normal', path: "m/84'/1'/i'" },
+    { symbol: 'tckb', type: 'taproot', path: "m/86'/1'/i'" },
+    { symbol: 'tckb', type: 'segwit', path: "m/49'/1'/i'" },
+    { symbol: 'tckb', type: 'legacy', path: "m/44'/1'/i'" },
     { symbol: 'eth', type: 'normal', path: "m/44'/60'/0'/0/i" },
     { symbol: 'eth', type: 'ledger', path: "m/44'/60'/i'/0/0" },
     { symbol: 'eth', type: 'legacy', path: "m/44'/60'/0'/i" },
@@ -75,10 +83,10 @@ export type AdditionalParams = Pick<
 
 type CoinParam<T extends AccountTypeKey['symbol'] = AccountTypeKey['symbol']> = T extends T
     ? AdditionalParams & {
-          symbol: T;
-          known?: { type: Extract<AccountTypeKey, { symbol: T }>['type']; skip?: number }[];
-          knownOnly?: boolean;
-      }
+        symbol: T;
+        known?: { type: Extract<AccountTypeKey, { symbol: T }>['type']; skip?: number }[];
+        knownOnly?: boolean;
+    }
     : never;
 
 type DiscoverAccountsParams = {
