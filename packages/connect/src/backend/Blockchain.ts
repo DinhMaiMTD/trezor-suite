@@ -11,6 +11,7 @@ import { PushTransaction } from '../types/api/pushTransaction';
 import {
     BlockbookWorker,
     BlockfrostWorker,
+    CkbWorker,
     ElectrumWorker,
     EvmRpcWorker,
     RippleWorker,
@@ -34,19 +35,29 @@ const getWorker = (type: string) => {
             return StellarWorker;
         case 'evm-rpc':
             return EvmRpcWorker;
+        case 'ckb':
+            return CkbWorker;
         default:
             return null;
     }
 };
 
-const getNormalizedTrezorShortcut = (shortcut: string) => {
+const getNormalizedTrezorShortcut = (shortcut: string, backendType?: string) => {
     // There is no `rippled` setting that defines which network it uses neither mainnet or testnet
     // see: https://xrpl.org/parallel-networks.html
     if (shortcut === 'tXRP') {
         return 'XRP';
     }
 
-    // CKB/tCKB use BTC/Testnet backends, normalize shortcut to match blockbook network name
+    // Dedicated CKB backend reports mainnet/testnet.
+    if (shortcut === 'CKB' && backendType === 'ckb') {
+        return 'mainnet';
+    }
+    if (shortcut === 'tCKB' && backendType === 'ckb') {
+        return 'testnet';
+    }
+
+    // CKB/tCKB use BTC/Testnet network identifiers with legacy blockbook-like backends.
     if (shortcut === 'CKB') {
         return 'BTC';
     }
@@ -135,7 +146,10 @@ export class Blockchain {
 
         this.serverInfo = info;
 
-        const trezorNetworkShortcut = getNormalizedTrezorShortcut(this.coinInfo.shortcut);
+        const trezorNetworkShortcut = getNormalizedTrezorShortcut(
+            this.coinInfo.shortcut,
+            this.coinInfo.blockchainLink?.type,
+        );
         const backendNetworkShortcut = this.serverInfo.network;
 
         if (backendNetworkShortcut.toLowerCase() !== trezorNetworkShortcut.toLowerCase()) {

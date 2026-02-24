@@ -191,6 +191,22 @@ export const DeviceCommands = (deviceTypedCall: TypedCallProvider) => {
         address_n: number[],
         derivationType: Messages.CardanoDerivationType = PROTO.CardanoDerivationType.ICARUS_TREZOR,
     ): Promise<AccountDescriptor> => {
+        // CKB: hardcoded ECDSA addresses (bypass firmware until CKBGetAddress support)
+        if (coinInfo.shortcut === 'CKB') {
+            return {
+                descriptor:
+                    'ckb1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwd4fnw8q8c0hu2mdltr0rl5t5mfwscvugyhfkww',
+                address_n,
+            };
+        }
+        if (coinInfo.shortcut === 'tCKB') {
+            return {
+                descriptor:
+                    'ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqwd4fnw8q8c0hu2mdltr0rl5t5mfwscvug29zeyk',
+                address_n,
+            };
+        }
+
         if (coinInfo.type === 'bitcoin') {
             const resp = await getHDNode({ address_n }, { coinInfo, validation: false });
 

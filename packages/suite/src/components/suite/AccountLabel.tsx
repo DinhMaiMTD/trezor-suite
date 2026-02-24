@@ -53,6 +53,7 @@ export const AccountLabel = ({
                     size={accountTypeBadgeSize}
                     path={path}
                     networkType={networkType}
+                    symbol={symbol}
                 />
             )}
         </Row>

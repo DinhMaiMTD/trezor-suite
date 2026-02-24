@@ -147,6 +147,7 @@ const Details = () => {
                             shouldDisplayNormalType
                             path={account.path}
                             networkType={account.networkType}
+                            symbol={account.symbol}
                         />
                         <Paragraph typographyStyle="label" textWrap="nowrap">
                             (<Translation id={accountTypeTech} />)

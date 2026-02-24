@@ -2536,6 +2536,14 @@ export const messages = defineMessages({
         defaultMessage: 'Ledger accounts',
         id: 'TR_CARDANO_LEDGER_ACCOUNTS',
     },
+    TR_ECDSA_ACCOUNTS: {
+        defaultMessage: 'ECDSA accounts',
+        id: 'TR_ECDSA_ACCOUNTS',
+    },
+    TR_SPHINCSPLUS_ACCOUNTS: {
+        defaultMessage: 'SPHINCS+ accounts',
+        id: 'TR_SPHINCSPLUS_ACCOUNTS',
+    },
     TR_ACCOUNT_TYPE_LEGACY: {
         defaultMessage: 'Legacy',
         id: 'TR_ACCOUNT_TYPE_LEGACY',
@@ -2569,6 +2577,26 @@ export const messages = defineMessages({
     TR_ACCOUNT_TYPE_SEGWIT: {
         defaultMessage: 'Legacy SegWit',
         id: 'TR_ACCOUNT_TYPE_SEGWIT',
+        dynamic: true,
+    },
+    TR_ACCOUNT_TYPE_ECDSA: {
+        defaultMessage: 'ECDSA',
+        id: 'TR_ACCOUNT_TYPE_ECDSA',
+        dynamic: true,
+    },
+    TR_ACCOUNT_TYPE_SPHINCSPLUS: {
+        defaultMessage: 'SPHINCS+',
+        id: 'TR_ACCOUNT_TYPE_SPHINCSPLUS',
+        dynamic: true,
+    },
+    TR_ACCOUNT_TYPE_ECDSA_DESC: {
+        defaultMessage: 'Standard CKB account using ECDSA (secp256k1) signing.',
+        id: 'TR_ACCOUNT_TYPE_ECDSA_DESC',
+        dynamic: true,
+    },
+    TR_ACCOUNT_TYPE_SPHINCSPLUS_DESC: {
+        defaultMessage: 'Post-quantum CKB account using SPHINCS+ signing (experimental).',
+        id: 'TR_ACCOUNT_TYPE_SPHINCSPLUS_DESC',
         dynamic: true,
     },
     TR_LOG: {

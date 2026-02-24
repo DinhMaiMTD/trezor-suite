@@ -87,6 +87,7 @@ export const AccountDetails = ({ selectedAccount, isBalanceShown }: AccountDetai
                         accountType={accountType}
                         path={path}
                         networkType={networkType}
+                        symbol={symbol}
                         size={isBalanceShown ? 'small' : 'medium'}
                     />
                 }
@@ -104,6 +105,7 @@ export const AccountDetails = ({ selectedAccount, isBalanceShown }: AccountDetai
             defaultLabel,
             accountType,
             networkType,
+            symbol,
             isBalanceShown,
             translationString,
         ],

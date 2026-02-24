@@ -211,6 +211,7 @@ const TextLikeLabel = ({
                         accountType={accountType}
                         networkType={networkType}
                         path={path}
+                        symbol={symbol}
                     />
                 )}
             </Row>
@@ -227,6 +228,7 @@ const TextLikeLabel = ({
                             accountType={accountType}
                             networkType={networkType}
                             path={path}
+                            symbol={symbol}
                         />
                     )}
                 </Row>

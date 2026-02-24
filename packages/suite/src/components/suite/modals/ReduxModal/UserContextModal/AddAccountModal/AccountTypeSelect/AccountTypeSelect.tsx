@@ -48,6 +48,7 @@ export const AccountTypeSelect = ({
             path: option.value.bip43Path,
             accountType: option.value.accountType,
             networkType,
+            symbol,
         });
 
         return (

@@ -48,7 +48,7 @@ export type NetworkType =
     | 'tron';
 
 type UtilityAccountType = 'normal' | 'imported' | 'placeholder'; // reserved accountTypes to stand in for a real accountType
-type RealAccountType = 'legacy' | 'segwit' | 'coinjoin' | 'taproot' | 'ledger';
+type RealAccountType = 'legacy' | 'segwit' | 'coinjoin' | 'taproot' | 'ledger' | 'ecdsa' | 'sphincsplus';
 export type AccountType = UtilityAccountType | RealAccountType;
 
 export const TREZOR_CONNECT_BACKENDS = [
@@ -59,6 +59,7 @@ export const TREZOR_CONNECT_BACKENDS = [
     'solana',
     'stellar',
     'evm-rpc',
+    'ckb',
 ] as const;
 
 export const NON_STANDARD_BACKENDS = ['coinjoin'] as const;

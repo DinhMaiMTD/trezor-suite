@@ -91,6 +91,7 @@ export const WalletConnectSwitchAccountModal = ({
                             <AccountTypeBadge
                                 accountType={account.accountType}
                                 networkType={account.networkType}
+                                symbol={account.symbol}
                                 size="small"
                             />
                         </Row>

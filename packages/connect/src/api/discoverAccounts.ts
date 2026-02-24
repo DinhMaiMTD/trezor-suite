@@ -97,19 +97,19 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
             // Take all the defined account types based on requested coin symbol
             const symbolAccounts = ACCOUNT_TYPES.filter(a => a.symbol === symbol);
 
-            knownAccs?.forEach(account => {
+            const validKnownAccs = knownAccs?.filter(account => {
                 validateParams(account, [
                     { name: 'type', type: 'string', required: true },
                     { name: 'skip', type: 'number' },
                 ]);
-                // Do not try to explicitly request account type which doesn't exist for requested coin
-                if (!symbolAccounts.some(a => a.type === account.type)) {
-                    throw new Error(`Unknown account type: ${symbol}/${account.type}`);
-                }
+
+                // Ignore account types no longer supported for this coin
+                // (backward compatibility for persisted discovery state after account type changes).
+                return symbolAccounts.some(a => a.type === account.type);
             });
 
             return symbolAccounts
-                .map(account => [account, knownAccs?.find(t => t.type === account.type)] as const) // Pair all coin accounts with possibly known account types
+                .map(account => [account, validKnownAccs?.find(t => t.type === account.type)] as const) // Pair all coin accounts with possibly known account types
                 .filter(([_, known]) => (known ? typeof known.skip === 'number' : !knownOnly)) // Include passed known accounts with skip param (the other ones are known completely) and unpassed accounts if knownOnly wasn't requested
                 .map(([account, known]) => ({
                     pageSize: isCardano(account) ? 8 : TXS_PER_PAGE,
@@ -224,7 +224,7 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
         return arrayPartition(
             accounts.map(item =>
                 (item.account.type === 'legacy' && omitLegacy) ||
-                (item.account.type === 'ledger' && omitLedger)
+                    (item.account.type === 'ledger' && omitLedger)
                     ? { ...item, error: 'ignored cardano derivation' as const }
                     : item,
             ),
@@ -266,6 +266,9 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
         const backendType = coinInfo.blockchainLink?.type;
         const utxoRequired = isUtxoBased(coinInfo) && details && details !== 'basic';
         let index = skip;
+        let previousDescriptor: string | undefined;
+
+
 
         let blockchain;
         try {
@@ -280,12 +283,21 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
         }
 
         let descPromise = this.getDescriptor(coinInfo, bip43, derivation, offset + index);
-        descPromise.catch(() => {});
+        descPromise.catch(() => { });
         while (true) {
             try {
                 const { descriptor, ...descRest } = await descPromise;
                 descPromise = this.getDescriptor(coinInfo, bip43, derivation, offset + index + 1);
-                descPromise.catch(() => {});
+                descPromise.catch(() => { });
+
+                // Temporary CKB fallback descriptor may be static (same descriptor for every index).
+                // Stop discovery when descriptor repeats to avoid endless/non-terminating scans.
+                if (previousDescriptor === descriptor) {
+                    this.updateProgress(accountKey, index + 1, true);
+
+                    return { nonempty: index - skip };
+                }
+                previousDescriptor = descriptor;
 
                 const info = await blockchain.getAccountInfo({ descriptor, details, pageSize });
 
@@ -293,8 +305,8 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
                 const utxo = !utxoRequired
                     ? undefined
                     : info.empty
-                      ? []
-                      : await blockchain.getAccountUtxo(descriptor);
+                        ? []
+                        : await blockchain.getAccountUtxo(descriptor);
 
                 this.updateProgress(accountKey, index + 1, info.empty);
                 this.sendProgress({
@@ -309,7 +321,7 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
                 });
 
                 if (info.empty) {
-                    await descPromise.catch(() => {});
+                    await descPromise.catch(() => { });
 
                     return { nonempty: index - skip };
                 }

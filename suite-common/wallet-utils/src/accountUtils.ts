@@ -80,12 +80,12 @@ export const getFirstFreshAddress = (
     const unused = account.addresses
         ? account.addresses.unused
         : [
-              {
-                  path: account.path,
-                  address: account.descriptor,
-                  transfers: account.history.total,
-              },
-          ];
+            {
+                path: account.path,
+                address: account.descriptor,
+                transfers: account.history.total,
+            },
+        ];
 
     const unrevealed = unused.filter(
         a =>
@@ -185,10 +185,20 @@ type getAccountTypeNameProps = {
     path?: Bip43PathTemplate;
     networkType?: NetworkType;
     accountType?: AccountType;
+    symbol?: NetworkSymbolExtended;
 };
 
-export const getAccountTypeName = ({ path, accountType, networkType }: getAccountTypeNameProps) => {
+export const getAccountTypeName = ({
+    path,
+    accountType,
+    networkType,
+    symbol,
+}: getAccountTypeNameProps) => {
     if (!networkType) return null;
+
+    if ((symbol === 'ckb' || symbol === 'tckb') && accountType === 'normal') {
+        return 'TR_ACCOUNT_TYPE_ECDSA';
+    }
 
     if (networkType !== 'bitcoin') {
         switch (accountType) {
@@ -212,6 +222,10 @@ export const getAccountTypeName = ({ path, accountType, networkType }: getAccoun
             return 'TR_ACCOUNT_TYPE_BIP84_NAME';
         case 'legacy':
             return 'TR_ACCOUNT_TYPE_LEGACY';
+        case 'ecdsa':
+            return 'TR_ACCOUNT_TYPE_ECDSA';
+        case 'sphincsplus':
+            return 'TR_ACCOUNT_TYPE_SPHINCSPLUS';
     }
 
     if (!path) return null;
@@ -256,6 +270,10 @@ export const getAccountTypeDesc = ({ path, accountType, networkType }: getAccoun
             }
 
             return 'TR_ACCOUNT_TYPE_LEGACY_DESC';
+        case 'ecdsa':
+            return 'TR_ACCOUNT_TYPE_ECDSA_DESC';
+        case 'sphincsplus':
+            return 'TR_ACCOUNT_TYPE_SPHINCSPLUS_DESC';
     }
 
     switch (networkType) {
@@ -659,10 +677,10 @@ export const isAccountOutdated = (account: Account, freshInfo: AccountInfo) => {
         // if backend/coin supports addrTxCount, compare it instead of total
         typeof freshInfo.history.addrTxCount === 'number'
             ? // addrTxCount (address/tx pairs) is different than before
-              account.history.addrTxCount !== freshInfo.history.addrTxCount
+            account.history.addrTxCount !== freshInfo.history.addrTxCount
             : // confirmed tx count is different than before
-              // (unreliable for different getAccountInfo levels, that's why addrTxCount was added)
-              account.history.total !== freshInfo.history.total
+            // (unreliable for different getAccountInfo levels, that's why addrTxCount was added)
+            account.history.total !== freshInfo.history.total
     )
         return true;
 
@@ -691,7 +709,7 @@ export const isAccountOutdated = (account: Account, freshInfo: AccountInfo) => {
                 freshInfo.misc!.nonce !== account.misc.nonce ||
                 freshInfo.balance !== account.balance || // balance can change because of beacon chain/internal txs
                 JSON.stringify(freshInfo?.misc?.stakingPools) !==
-                    JSON.stringify(account?.misc?.stakingPools)
+                JSON.stringify(account?.misc?.stakingPools)
             );
         case 'cardano':
             return (
@@ -863,8 +881,8 @@ export const accountSearchFn = (
     const descriptorMatch = account.descriptor.toLowerCase() === searchString;
     const addressMatch = account.addresses
         ? account.addresses.used.find(matchAddressFn) ||
-          account.addresses.unused.find(matchAddressFn) ||
-          account.addresses.change.find(matchAddressFn)
+        account.addresses.unused.find(matchAddressFn) ||
+        account.addresses.change.find(matchAddressFn)
         : false;
     // find XRP accounts when users types in 'ripple'
     const matchXRPAlternativeName =

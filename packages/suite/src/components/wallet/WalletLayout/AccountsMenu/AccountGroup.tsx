@@ -52,6 +52,10 @@ const getGroupLabel = (type: AccountGroupProps['type'], hideLabel?: boolean) => 
             return 'TR_LEGACY_ACCOUNTS';
         case 'ledger':
             return 'TR_CARDANO_LEDGER_ACCOUNTS';
+        case 'ecdsa':
+            return 'TR_ECDSA_ACCOUNTS';
+        case 'sphincsplus':
+            return 'TR_SPHINCSPLUS_ACCOUNTS';
         default:
             return 'TR_LEGACY_SEGWIT_ACCOUNTS';
     }

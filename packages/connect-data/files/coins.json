@@ -62,9 +62,9 @@
             "address_type_p2sh": 5,
             "bech32_prefix": "bc",
             "blockchain_link": {
-                "type": "blockbook",
+                "type": "ckb",
                 "url": [
-                    "https://btc.trezor.io"
+                    "https://mainnet.ckb.dev/"
                 ]
             },
             "blocktime_seconds": 600,
@@ -93,10 +93,10 @@
             "minfee_kb": 100,
             "name": "Nervos CKB",
             "overwintered": false,
-            "segwit": true,
+            "segwit": false,
             "shortcut": "CKB",
-            "signed_message_header": "Bitcoin Signed Message:\n",
-            "slip44": 0,
+            "signed_message_header": "Nervos CKB Signed Message:\n",
+            "slip44": 309,
             "support": {
                 "T1B1": "1.5.2",
                 "T2B1": "2.6.1",
@@ -105,23 +105,23 @@
                 "T3T1": "2.6.1",
                 "T3W1": "2.6.1"
             },
-            "taproot": true,
+            "taproot": false,
             "timestamp": false,
             "xprv_magic": 76066276,
             "xpub_magic": 76067358,
-            "xpub_magic_multisig_segwit_native": 44728019,
-            "xpub_magic_multisig_segwit_p2sh": 43365439,
-            "xpub_magic_segwit_native": 78792518,
-            "xpub_magic_segwit_p2sh": 77429938
+            "xpub_magic_multisig_segwit_native": null,
+            "xpub_magic_multisig_segwit_p2sh": null,
+            "xpub_magic_segwit_native": null,
+            "xpub_magic_segwit_p2sh": null
         },
         {
             "address_type": 111,
             "address_type_p2sh": 196,
             "bech32_prefix": "tb",
             "blockchain_link": {
-                "type": "blockbook",
+                "type": "ckb",
                 "url": [
-                    "https://tbtc4.trezor.io"
+                    "https://testnet.ckb.dev/"
                 ]
             },
             "blocktime_seconds": 600,
@@ -147,10 +147,10 @@
             "minfee_kb": 1000,
             "name": "Nervos CKB Testnet",
             "overwintered": false,
-            "segwit": true,
+            "segwit": false,
             "shortcut": "tCKB",
-            "signed_message_header": "Bitcoin Signed Message:\n",
-            "slip44": 1,
+            "signed_message_header": "Nervos CKB Signed Message:\n",
+            "slip44": 309,
             "support": {
                 "T1B1": "1.5.2",
                 "T2B1": "2.6.1",
@@ -159,14 +159,14 @@
                 "T3T1": "2.6.1",
                 "T3W1": "2.6.1"
             },
-            "taproot": true,
+            "taproot": false,
             "timestamp": false,
             "xprv_magic": 70615956,
             "xpub_magic": 70617039,
-            "xpub_magic_multisig_segwit_native": 39277699,
-            "xpub_magic_multisig_segwit_p2sh": 37915119,
-            "xpub_magic_segwit_native": 73342198,
-            "xpub_magic_segwit_p2sh": 71979618
+            "xpub_magic_multisig_segwit_native": null,
+            "xpub_magic_multisig_segwit_p2sh": null,
+            "xpub_magic_segwit_native": null,
+            "xpub_magic_segwit_p2sh": null
         },
         {
             "address_type": 111,
