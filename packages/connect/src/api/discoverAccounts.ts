@@ -243,11 +243,8 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
         const path = substituteBip43Path(bip43PathTemplate, index);
 
         const { address_n: _, ...descriptorRest } = await this.descriptorLock(async () => {
-            const key = `${path}-${derivationType}`;
+            const key = `${path}-${derivationType}-${coinInfo.shortcut}`;
             if (!this.descriptorCache[key]) {
-                // This works because descriptors returned from getAccountDescriptor depend only
-                // on derivation path (plus type in case of Cardano). When there's a case where
-                // we expect two different descriptors from the same path, this must be reworked.
                 const address_n = validatePath(path, 3);
                 this.descriptorCache[key] = await this.device
                     .getCommands()
@@ -268,7 +265,18 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
         let index = skip;
         let previousDescriptor: string | undefined;
 
-
+        // When resuming discovery (skip > 0), seed previousDescriptor with the
+        // descriptor from the previous account index. This prevents creating
+        // duplicate accounts for coins with static descriptors (e.g. CKB where
+        // the same hardcoded address is returned for every derivation index).
+        if (skip > 0) {
+            try {
+                const prev = await this.getDescriptor(coinInfo, bip43, derivation, offset + skip - 1);
+                previousDescriptor = prev.descriptor;
+            } catch {
+                // ignore — proceed with undefined previousDescriptor
+            }
+        }
 
         let blockchain;
         try {
