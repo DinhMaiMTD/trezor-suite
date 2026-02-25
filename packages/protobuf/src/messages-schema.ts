@@ -4014,6 +4014,25 @@ export const TronRawTransaction = Type.Object(
     { $id: 'TronRawTransaction' },
 );
 
+export type CKBGetAddress = Static<typeof CKBGetAddress>;
+export const CKBGetAddress = Type.Object(
+    {
+        address_n: Type.Array(Type.Number()),
+        show_display: Type.Optional(Type.Boolean()),
+        network: Type.Optional(Type.String()),
+        chunkify: Type.Optional(Type.Boolean()),
+    },
+    { $id: 'CKBGetAddress' },
+);
+
+export type CKBAddress = Static<typeof CKBAddress>;
+export const CKBAddress = Type.Object(
+    {
+        address: Type.String(),
+    },
+    { $id: 'CKBAddress' },
+);
+
 export type MessageType = Static<typeof MessageType>;
 export const MessageType = Type.Object(
     {
@@ -4348,6 +4367,8 @@ export const MessageType = Type.Object(
         TronRawParameter,
         TronRawContract,
         TronRawTransaction,
+        CKBGetAddress,
+        CKBAddress,
     },
     { $id: 'MessageType' },
 );

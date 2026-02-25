@@ -7646,6 +7646,42 @@
                 }
             }
         },
+        "CKBGetAddress": {
+            "fields": {
+                "address_n": {
+                    "rule": "repeated",
+                    "type": "uint32",
+                    "id": 1,
+                    "options": {
+                        "packed": false
+                    }
+                },
+                "show_display": {
+                    "type": "bool",
+                    "id": 2
+                },
+                "network": {
+                    "type": "string",
+                    "id": 3,
+                    "options": {
+                        "default": "Mainnet"
+                    }
+                },
+                "chunkify": {
+                    "type": "bool",
+                    "id": 4
+                }
+            }
+        },
+        "CKBAddress": {
+            "fields": {
+                "address": {
+                    "rule": "required",
+                    "type": "string",
+                    "id": 1
+                }
+            }
+        },
         "MessageType": {
             "options": {
                 "(has_bitcoin_only_values)": true,
@@ -7900,7 +7936,9 @@
                 "TronSignature": 2203,
                 "TronContractRequest": 2204,
                 "TronTransferContract": 2205,
-                "TronTriggerSmartContract": 2206
+                "TronTriggerSmartContract": 2206,
+                "CKBGetAddress": 5500,
+                "CKBAddress": 5501
             }
         }
     }

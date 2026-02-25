@@ -267,8 +267,8 @@ export default class DiscoverAccounts extends AbstractMethod<'discoverAccounts',
 
         // When resuming discovery (skip > 0), seed previousDescriptor with the
         // descriptor from the previous account index. This prevents creating
-        // duplicate accounts for coins with static descriptors (e.g. CKB where
-        // the same hardcoded address is returned for every derivation index).
+        // duplicate accounts for coins where the device returns the same address
+        // for every derivation index (safety guard for non-HD address schemes).
         if (skip > 0) {
             try {
                 const prev = await this.getDescriptor(coinInfo, bip43, derivation, offset + skip - 1);

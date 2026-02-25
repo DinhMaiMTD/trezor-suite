@@ -48,6 +48,7 @@ export const connectCallableMethods = [
     'changePin',
     'changeWipeCode',
     'cipherKeyValue',
+    'ckbGetAddress',
     'composeTransaction',
     'discoverAccounts',
     'ethereumGetAddress',

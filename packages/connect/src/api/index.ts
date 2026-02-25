@@ -24,6 +24,7 @@ export { default as changeLanguage } from './changeLanguage';
 export { default as changePin } from './changePin';
 export { default as changeWipeCode } from './changeWipeCode';
 export { default as cipherKeyValue } from './cipherKeyValue';
+export { ckbGetAddress } from './ckb/api';
 export { default as evoluGetNode } from './evoluGetNode';
 export { default as evoluSignRegistrationRequest } from './evoluSignRegistrationRequest';
 export { default as evoluGetDelegatedIdentityKey } from './evoluGetDelegatedIdentityKey';

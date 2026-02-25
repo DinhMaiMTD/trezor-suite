@@ -2582,6 +2582,17 @@ export type TronRawTransaction = {
     fee_limit?: number;
 };
 
+export type CKBGetAddress = {
+    address_n: number[];
+    show_display?: boolean;
+    network?: string;
+    chunkify?: boolean;
+};
+
+export type CKBAddress = {
+    address: string;
+};
+
 // custom connect definitions
 export type MessageType = {
     TextMemo: TextMemo;
@@ -2915,6 +2926,8 @@ export type MessageType = {
     TronRawParameter: TronRawParameter;
     TronRawContract: TronRawContract;
     TronRawTransaction: TronRawTransaction;
+    CKBGetAddress: CKBGetAddress;
+    CKBAddress: CKBAddress;
 };
 
 // @COPY from this marker to the EOF, types are copied into messages-schema
