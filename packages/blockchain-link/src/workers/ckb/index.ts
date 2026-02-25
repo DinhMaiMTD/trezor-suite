@@ -5,7 +5,7 @@ import {
     ClientPublicTestnet,
 } from '@ckb-ccc/core';
 
-import type { AccountInfo, Response, Transaction } from '@trezor/blockchain-link-types';
+import type { AccountInfo, Response, Transaction, Utxo } from '@trezor/blockchain-link-types';
 import { MESSAGES, RESPONSES } from '@trezor/blockchain-link-types/src/constants';
 import { CustomError } from '@trezor/blockchain-link-types/src/constants/errors';
 import type * as MessageTypes from '@trezor/blockchain-link-types/src/messages';
@@ -292,12 +292,49 @@ const unsubscribe = (request: Request<MessageTypes.Unsubscribe>) => {
     } as const;
 };
 
+const getAccountUtxo = async (request: Request<MessageTypes.GetAccountUtxo>) => {
+    const descriptor = request.payload;
+    const client = await request.connect();
+
+    try {
+        const address = await Address.fromString(descriptor, client);
+        const lockScript = address.script;
+
+        // Collect CKB live cells as UTXOs
+        const utxos: Utxo[] = [];
+        for await (const cell of client.findCellsByLock(lockScript, undefined, true)) {
+            utxos.push({
+                txid: cell.outPoint.txHash.slice(2), // remove '0x' prefix
+                vout: Number(cell.outPoint.index),
+                amount: cell.cellOutput.capacity.toString(),
+                blockHeight: 0, // CKB cells don't carry block height directly
+                address: descriptor,
+                path: '',
+                confirmations: 1,
+            });
+        }
+
+        return {
+            type: RESPONSES.GET_ACCOUNT_UTXO,
+            payload: utxos,
+        } as const;
+    } catch {
+        // Return empty UTXO set on any error (e.g. address parse failure, RPC error)
+        return {
+            type: RESPONSES.GET_ACCOUNT_UTXO,
+            payload: [] as Utxo[],
+        } as const;
+    }
+};
+
 const onRequest = (request: Request<MessageTypes.Message>) => {
     switch (request.type) {
         case MESSAGES.GET_INFO:
             return getInfo(request);
         case MESSAGES.GET_ACCOUNT_INFO:
             return getAccountInfo(request);
+        case MESSAGES.GET_ACCOUNT_UTXO:
+            return getAccountUtxo(request);
         case MESSAGES.GET_TRANSACTION:
             return getTransaction(request);
         case MESSAGES.ESTIMATE_FEE:
