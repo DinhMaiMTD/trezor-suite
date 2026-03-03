@@ -31,6 +31,7 @@ import { changePin } from './changePin';
 import { changeWipeCode } from './changeWipeCode';
 import { cipherKeyValue } from './cipherKeyValue';
 import { ckbGetAddress } from './ckbGetAddress';
+import { ckbSignTransaction } from './ckbSignTransaction';
 import { composeTransaction } from './composeTransaction';
 import { discoverAccounts } from './discoverAccounts';
 import { dispose } from './dispose';
@@ -199,6 +200,9 @@ export interface TrezorConnect {
 
     // Nervos CKB getAddress
     ckbGetAddress: typeof ckbGetAddress;
+
+    // Nervos CKB signTransaction
+    ckbSignTransaction: typeof ckbSignTransaction;
 
     // todo: link docs
     evoluGetNode: typeof evoluGetNode;

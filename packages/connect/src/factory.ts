@@ -49,6 +49,7 @@ export const connectCallableMethods = [
     'changeWipeCode',
     'cipherKeyValue',
     'ckbGetAddress',
+    'ckbSignTransaction',
     'composeTransaction',
     'discoverAccounts',
     'ethereumGetAddress',

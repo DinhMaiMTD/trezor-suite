@@ -75,6 +75,44 @@ const getAccountInfo = async (request: Request<MessageTypes.GetAccountInfo>) => 
                 const transactions: AccountInfo['history']['transactions'] = [];
                 let total = 0;
 
+                // Cache fetched transactions to avoid redundant RPC calls
+                const txCache = new Map<
+                    string,
+                    Awaited<ReturnType<typeof client.getTransaction>>
+                >();
+                const fetchTx = async (hash: string) => {
+                    const cached = txCache.get(hash);
+                    if (cached !== undefined) return cached;
+                    const result = await client.getTransaction(hash);
+                    txCache.set(hash, result);
+
+                    return result;
+                };
+
+                // Cache block timestamps to avoid redundant header fetches
+                const blockTimestampCache = new Map<number, number>();
+                const getBlockTimestamp = async (
+                    blockNum: number,
+                ): Promise<number | undefined> => {
+                    const cached = blockTimestampCache.get(blockNum);
+                    if (cached !== undefined) return cached;
+                    try {
+                        const header =
+                            await client.getHeaderByNumber(blockNum);
+                        if (header) {
+                            // CKB timestamp is in milliseconds, convert to seconds
+                            const ts = Number(header.timestamp) / 1000;
+                            blockTimestampCache.set(blockNum, ts);
+
+                            return ts;
+                        }
+                    } catch {
+                        // ignore header fetch failures
+                    }
+
+                    return undefined;
+                };
+
                 for await (const tx of client.findTransactionsByLock(
                     lockScript,
                     undefined,
@@ -83,27 +121,141 @@ const getAccountInfo = async (request: Request<MessageTypes.GetAccountInfo>) => 
                     payload.pageSize || 25,
                 )) {
                     total++;
-                    // Basic transaction info
-                    const txResponse = await client.getTransaction(tx.txHash);
+                    const txResponse = await fetchTx(String(tx.txHash));
                     if (txResponse) {
+                        const txObj = txResponse.transaction;
+
+                        let myInputSum = BigInt(0);
+                        let myOutputSum = BigInt(0);
+                        let totalInputSum = BigInt(0);
+                        let totalOutputSum = BigInt(0);
+
+                        const vin: Transaction['details']['vin'] = [];
+                        const vout: Transaction['details']['vout'] = [];
+
+                        // Resolve input amounts by fetching referenced previous outputs
+                        for (let i = 0; i < txObj.inputs.length; i++) {
+                            const input = txObj.inputs[i];
+                            try {
+                                const prevHash = String(
+                                    input.previousOutput.txHash,
+                                );
+                                // Skip cellbase inputs (all-zero hash)
+                                if (/^0x0+$/.test(prevHash)) {
+                                    vin.push({
+                                        n: i,
+                                        addresses: [],
+                                        isAddress: false,
+                                        coinbase:
+                                            'cellbase',
+                                    });
+                                    continue;
+                                }
+
+                                const prevTxResponse = await fetchTx(prevHash);
+                                if (prevTxResponse) {
+                                    const idx = Number(
+                                        input.previousOutput.index,
+                                    );
+                                    const prevOutput =
+                                        prevTxResponse.transaction.outputs[idx];
+                                    if (prevOutput) {
+                                        const cap = BigInt(
+                                            prevOutput.capacity,
+                                        );
+                                        const isOwn =
+                                            prevOutput.lock.eq(lockScript);
+                                        totalInputSum += cap;
+                                        if (isOwn) {
+                                            myInputSum += cap;
+                                        }
+                                        vin.push({
+                                            n: i,
+                                            addresses: [],
+                                            isAddress: true,
+                                            isOwn,
+                                            value: cap.toString(),
+                                        });
+                                    }
+                                }
+                            } catch {
+                                // Skip unresolvable inputs
+                            }
+                        }
+
+                        // Calculate output amounts
+                        for (let i = 0; i < txObj.outputs.length; i++) {
+                            const output = txObj.outputs[i];
+                            const cap = BigInt(output.capacity);
+                            const isOwn = output.lock.eq(lockScript);
+                            totalOutputSum += cap;
+                            if (isOwn) {
+                                myOutputSum += cap;
+                            }
+                            vout.push({
+                                n: i,
+                                addresses: [],
+                                isAddress: true,
+                                isOwn,
+                                value: cap.toString(),
+                            });
+                        }
+
+                        const fee =
+                            totalInputSum > totalOutputSum
+                                ? (totalInputSum - totalOutputSum).toString()
+                                : '0';
+
+                        let type: Transaction['type'];
+                        let amount: string;
+
+                        if (
+                            myInputSum > BigInt(0) &&
+                            myInputSum === totalInputSum &&
+                            myOutputSum === totalOutputSum
+                        ) {
+                            // All inputs & outputs belong to the user
+                            type = 'self';
+                            amount = fee;
+                        } else if (myInputSum > myOutputSum) {
+                            type = 'sent';
+                            amount = (
+                                myInputSum - myOutputSum
+                            ).toString();
+                        } else if (myOutputSum > BigInt(0)) {
+                            type = 'recv';
+                            amount = (
+                                myOutputSum - myInputSum
+                            ).toString();
+                        } else {
+                            type = 'unknown';
+                            amount = '0';
+                        }
+
+                        // Get block timestamp for graph history support
+                        const blockNum = tx.blockNumber
+                            ? Number(tx.blockNumber)
+                            : undefined;
+                        const blockTime = blockNum
+                            ? await getBlockTimestamp(blockNum)
+                            : undefined;
+
                         transactions.push({
-                            type: 'sent', // simplified - would need deeper analysis
-                            txid: txResponse.transaction.hash().slice(2), // remove '0x' prefix
-                            blockHeight: txResponse.blockNumber
-                                ? Number(txResponse.blockNumber)
-                                : undefined,
-                            blockTime: undefined,
-                            amount: '0',
-                            fee: '0',
+                            type,
+                            txid: String(txObj.hash()).replace(/^0x/, ''),
+                            blockHeight: blockNum,
+                            blockTime,
+                            amount,
+                            fee,
                             targets: [],
                             tokens: [],
                             internalTransfers: [],
                             details: {
-                                vin: [],
-                                vout: [],
+                                vin,
+                                vout,
                                 size: 0,
-                                totalInput: '0',
-                                totalOutput: '0',
+                                totalInput: totalInputSum.toString(),
+                                totalOutput: totalOutputSum.toString(),
                             },
                         });
                     }

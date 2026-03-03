@@ -4033,6 +4033,142 @@ export const CKBAddress = Type.Object(
     { $id: 'CKBAddress' },
 );
 
+// CKB (Nervos Network) transaction signing messages
+
+// Flattened CKB Cell Input matching firmware proto
+export type CKBCellInput = Static<typeof CKBCellInput>;
+export const CKBCellInput = Type.Object(
+    {
+        previous_output_tx_hash: Type.String(), // 32-byte transaction hash (hex)
+        previous_output_index: Type.Number(), // output index
+        since: Type.Optional(Type.Uint()), // since field for time-lock, default 0
+    },
+    { $id: 'CKBCellInput' },
+);
+
+// Flattened CKB Cell Output matching firmware proto
+export type CKBCellOutput = Static<typeof CKBCellOutput>;
+export const CKBCellOutput = Type.Object(
+    {
+        capacity: Type.Uint(), // capacity in shannons
+        lock_code_hash: Type.String(), // 32-byte lock script code hash (hex)
+        lock_hash_type: Type.Number(), // 0=data, 1=type, 2=data1, 4=data2
+        lock_args: Type.String(), // lock script args (hex)
+        type_code_hash: Type.Optional(Type.String()), // optional type script code hash
+        type_hash_type: Type.Optional(Type.Number()), // optional type script hash type
+        type_args: Type.Optional(Type.String()), // optional type script args
+        data: Type.Optional(Type.String()), // output data (hex)
+    },
+    { $id: 'CKBCellOutput' },
+);
+
+// Flattened CKB Cell Dependency matching firmware proto
+export type CKBCellDep = Static<typeof CKBCellDep>;
+export const CKBCellDep = Type.Object(
+    {
+        tx_hash: Type.String(), // 32-byte transaction hash (hex)
+        index: Type.Number(), // output index
+        dep_type: Type.Number(), // 0 = code, 1 = dep_group
+    },
+    { $id: 'CKBCellDep' },
+);
+
+// CKBSignTx: Initial signing request with counts only (streaming protocol)
+export type CKBSignTx = Static<typeof CKBSignTx>;
+export const CKBSignTx = Type.Object(
+    {
+        address_n: Type.Array(Type.Number()),
+        network: Type.Optional(Type.String()),
+        inputs_count: Type.Number(),
+        outputs_count: Type.Number(),
+        cell_deps_count: Type.Optional(Type.Number()),
+        fee: Type.Optional(Type.Number()),
+        chunkify: Type.Optional(Type.Boolean()),
+    },
+    { $id: 'CKBSignTx' },
+);
+
+// CKBTxRequestType enum
+export enum CKBTxRequestType {
+    TXINPUT = 0,
+    TXOUTPUT = 1,
+    TXCELLDEP = 2,
+    TXFINISHED = 3,
+}
+
+export type EnumCKBTxRequestType = Static<typeof EnumCKBTxRequestType>;
+export const EnumCKBTxRequestType = Type.Enum(CKBTxRequestType);
+
+export type CKBTxRequestTypeKeyOf = Static<typeof CKBTxRequestTypeKeyOf>;
+export const CKBTxRequestTypeKeyOf = Type.KeyOfEnum(CKBTxRequestType, { $id: 'CKBTxRequestType' });
+
+// CKBTxRequestDetails: index of requested item
+export type CKBTxRequestDetails = Static<typeof CKBTxRequestDetails>;
+export const CKBTxRequestDetails = Type.Object(
+    {
+        request_index: Type.Optional(Type.Number()),
+    },
+    { $id: 'CKBTxRequestDetails' },
+);
+
+// CKBTxRequestSerialized: signature data when signing is complete
+export type CKBTxRequestSerialized = Static<typeof CKBTxRequestSerialized>;
+export const CKBTxRequestSerialized = Type.Object(
+    {
+        signature: Type.Optional(Type.String()),
+        tx_hash: Type.Optional(Type.String()),
+    },
+    { $id: 'CKBTxRequestSerialized' },
+);
+
+// CKBTxRequest: Device asks for transaction data
+export type CKBTxRequest = Static<typeof CKBTxRequest>;
+export const CKBTxRequest = Type.Object(
+    {
+        request_type: Type.Optional(CKBTxRequestTypeKeyOf),
+        details: Type.Optional(CKBTxRequestDetails),
+        serialized: Type.Optional(CKBTxRequestSerialized),
+    },
+    { $id: 'CKBTxRequest' },
+);
+
+// CKBTxAckInput: Provide cell input data
+export type CKBTxAckInput = Static<typeof CKBTxAckInput>;
+export const CKBTxAckInput = Type.Object(
+    {
+        input: Type.Optional(CKBCellInput),
+    },
+    { $id: 'CKBTxAckInput' },
+);
+
+// CKBTxAckOutput: Provide cell output data
+export type CKBTxAckOutput = Static<typeof CKBTxAckOutput>;
+export const CKBTxAckOutput = Type.Object(
+    {
+        output: Type.Optional(CKBCellOutput),
+    },
+    { $id: 'CKBTxAckOutput' },
+);
+
+// CKBTxAckCellDep: Provide cell dependency data
+export type CKBTxAckCellDep = Static<typeof CKBTxAckCellDep>;
+export const CKBTxAckCellDep = Type.Object(
+    {
+        cell_dep: Type.Optional(CKBCellDep),
+    },
+    { $id: 'CKBTxAckCellDep' },
+);
+
+// CKBSignedTx: Final result with signature and tx_hash
+export type CKBSignedTx = Static<typeof CKBSignedTx>;
+export const CKBSignedTx = Type.Object(
+    {
+        signature: Type.String(),
+        tx_hash: Type.String(),
+    },
+    { $id: 'CKBSignedTx' },
+);
+
 export type MessageType = Static<typeof MessageType>;
 export const MessageType = Type.Object(
     {
@@ -4369,6 +4505,17 @@ export const MessageType = Type.Object(
         TronRawTransaction,
         CKBGetAddress,
         CKBAddress,
+        CKBCellOutput,
+        CKBCellInput,
+        CKBCellDep,
+        CKBSignTx,
+        CKBTxRequest,
+        CKBTxRequestDetails,
+        CKBTxRequestSerialized,
+        CKBTxAckInput,
+        CKBTxAckOutput,
+        CKBTxAckCellDep,
+        CKBSignedTx,
     },
     { $id: 'MessageType' },
 );
@@ -4381,9 +4528,9 @@ export type MessagePayload<T extends MessageKey = MessageKey> = MessageType[T];
 
 export type MessageResponse<T extends MessageKey = MessageKey> = T extends any
     ? {
-          type: T;
-          message: MessagePayload<T>;
-      }
+        type: T;
+        message: MessagePayload<T>;
+    }
     : never;
 
 export type TypedCall = {

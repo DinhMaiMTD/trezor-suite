@@ -49,6 +49,10 @@ import {
     composeCardanoTransactionFeeLevelsThunk,
     signCardanoSendFormTransactionThunk,
 } from './sendFormCardanoThunks';
+import {
+    composeCkbTransactionFeeLevelsThunk,
+    signCkbSendFormTransactionThunk,
+} from './sendFormCkbThunks';
 import { SEND_MODULE_PREFIX } from './sendFormConstants';
 import {
     composeEthereumTransactionFeeLevelsThunk,
@@ -156,6 +160,7 @@ type CoinSpecificComposeResponse = ActionsFromAsyncThunk<
     | typeof composeEthereumTransactionFeeLevelsThunk
     | typeof composeCardanoTransactionFeeLevelsThunk
     | typeof composeSolanaTransactionFeeLevelsThunk
+    | typeof composeCkbTransactionFeeLevelsThunk
 >;
 
 export const composeSendFormTransactionFeeLevelsThunk = createThunk<
@@ -171,7 +176,17 @@ export const composeSendFormTransactionFeeLevelsThunk = createThunk<
 
         const { networkType } = account;
 
-        if (networkType === 'bitcoin') {
+        // CKB has networkType 'bitcoin' but needs its own compose logic
+        const isCkb = account.symbol === 'ckb' || account.symbol === 'tckb';
+
+        if (isCkb) {
+            response = await dispatch(
+                composeCkbTransactionFeeLevelsThunk({
+                    formState,
+                    composeContext,
+                }),
+            );
+        } else if (networkType === 'bitcoin') {
             response = await dispatch(
                 composeBitcoinTransactionFeeLevelsThunk({
                     formState,
@@ -279,7 +294,11 @@ const synchronizeSentTransactionThunk = createThunk(
                 );
                 dispatch(accountsActions.updateAccount(pendingAccount));
             }
-        } else if (selectedAccount.networkType === 'bitcoin') {
+        } else if (
+            selectedAccount.networkType === 'bitcoin' &&
+            selectedAccount.symbol !== 'ckb' &&
+            selectedAccount.symbol !== 'tckb'
+        ) {
             dispatch(
                 addFakePendingTxThunk({
                     precomposedTransaction,
@@ -503,6 +522,7 @@ type CoinSpecificSignResponse = ActionsFromAsyncThunk<
     | typeof signEthereumSendFormTransactionThunk
     | typeof signRippleStellarSendFormTransactionThunk
     | typeof signSolanaSendFormTransactionThunk
+    | typeof signCkbSendFormTransactionThunk
 >;
 
 type SignTransactionThunkParams = {
@@ -554,7 +574,14 @@ export const signTransactionThunk = createThunk<
                 ...thunkArguments,
                 paymentRequests,
             };
-            if (networkType === 'bitcoin') {
+
+            // CKB has networkType 'bitcoin' but needs its own sign logic
+            const isCkb =
+                selectedAccount.symbol === 'ckb' || selectedAccount.symbol === 'tckb';
+
+            if (isCkb) {
+                response = await dispatch(signCkbSendFormTransactionThunk(thunkArguments));
+            } else if (networkType === 'bitcoin') {
                 response = await dispatch(
                     signBitcoinSendFormTransactionThunk(thunkArgumentsWithPaymentRequests),
                 );

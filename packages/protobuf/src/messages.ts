@@ -2593,6 +2593,78 @@ export type CKBAddress = {
     address: string;
 };
 
+export type CKBCellInput = {
+    previous_output_tx_hash: string;
+    previous_output_index: number;
+    since?: UintType;
+};
+
+export type CKBCellOutput = {
+    capacity: UintType;
+    lock_code_hash: string;
+    lock_hash_type: number;
+    lock_args: string;
+    type_code_hash?: string;
+    type_hash_type?: number;
+    type_args?: string;
+    data?: string;
+};
+
+export type CKBCellDep = {
+    tx_hash: string;
+    index: number;
+    dep_type: number;
+};
+
+export type CKBSignTx = {
+    address_n: number[];
+    network?: string;
+    inputs_count: number;
+    outputs_count: number;
+    cell_deps_count?: number;
+    fee?: number;
+    chunkify?: boolean;
+};
+
+export enum CKBTxRequestType {
+    TXINPUT = 0,
+    TXOUTPUT = 1,
+    TXCELLDEP = 2,
+    TXFINISHED = 3,
+}
+
+export type CKBTxRequestDetails = {
+    request_index?: number;
+};
+
+export type CKBTxRequestSerialized = {
+    signature?: string;
+    tx_hash?: string;
+};
+
+export type CKBTxRequest = {
+    request_type?: CKBTxRequestType;
+    details?: CKBTxRequestDetails;
+    serialized?: CKBTxRequestSerialized;
+};
+
+export type CKBTxAckInput = {
+    input: CKBCellInput;
+};
+
+export type CKBTxAckOutput = {
+    output: CKBCellOutput;
+};
+
+export type CKBTxAckCellDep = {
+    cell_dep: CKBCellDep;
+};
+
+export type CKBSignedTx = {
+    signature: string;
+    tx_hash: string;
+};
+
 // custom connect definitions
 export type MessageType = {
     TextMemo: TextMemo;
@@ -2928,6 +3000,17 @@ export type MessageType = {
     TronRawTransaction: TronRawTransaction;
     CKBGetAddress: CKBGetAddress;
     CKBAddress: CKBAddress;
+    CKBCellInput: CKBCellInput;
+    CKBCellOutput: CKBCellOutput;
+    CKBCellDep: CKBCellDep;
+    CKBSignTx: CKBSignTx;
+    CKBTxRequest: CKBTxRequest;
+    CKBTxRequestDetails: CKBTxRequestDetails;
+    CKBTxRequestSerialized: CKBTxRequestSerialized;
+    CKBTxAckInput: CKBTxAckInput;
+    CKBTxAckOutput: CKBTxAckOutput;
+    CKBTxAckCellDep: CKBTxAckCellDep;
+    CKBSignedTx: CKBSignedTx;
 };
 
 // @COPY from this marker to the EOF, types are copied into messages-schema

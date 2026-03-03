@@ -8,7 +8,7 @@ import {
     getNetwork,
     getNetworkFeatures,
 } from '@suite-common/wallet-config';
-import { Account } from '@suite-common/wallet-types';
+import { Account, WalletAccountTransaction } from '@suite-common/wallet-types';
 import { formatNetworkAmount } from '@suite-common/wallet-utils';
 import type { BaseCurrencyCode } from '@trezor/blockchain-link-types';
 import type { BlockchainAccountBalanceHistory, StaticSessionId } from '@trezor/connect';
@@ -78,6 +78,60 @@ export function isNetworkWithGraphFeature(symbol: NetworkSymbol, backendType?: B
 
     return backendType !== 'evm-rpc';
 }
+
+/**
+ * Build BlockchainAccountBalanceHistory[] from local transactions.
+ * Used for coins whose backend doesn't support getAccountBalanceHistory
+ * (e.g. CKB) — groups transactions by day using their blockTime.
+ */
+export const buildBalanceHistoryFromTransactions = (
+    transactions: WalletAccountTransaction[],
+    _symbol: NetworkSymbol,
+): BlockchainAccountBalanceHistory[] => {
+    const summaryMap = new Map<number, BlockchainAccountBalanceHistory>();
+
+    for (const tx of transactions) {
+        const { blockTime } = tx;
+        if (!blockTime) continue;
+
+        // Normalize to start of day (same as resetTime with resetDay=true)
+        const dayTimestamp = resetTime(blockTime, true);
+
+        const amount = new BigNumber(tx.amount);
+        let sent = new BigNumber(0);
+        let received = new BigNumber(0);
+        let sentToSelf = new BigNumber(0);
+
+        if (tx.type === 'sent') {
+            sent = amount;
+        } else if (tx.type === 'recv') {
+            received = amount;
+        } else if (tx.type === 'self') {
+            sentToSelf = amount;
+        }
+
+        const existing = summaryMap.get(dayTimestamp);
+        if (existing) {
+            existing.txs += 1;
+            existing.received = new BigNumber(existing.received).plus(received).toFixed();
+            existing.sent = new BigNumber(existing.sent).plus(sent).toFixed();
+            existing.sentToSelf = new BigNumber(existing.sentToSelf || '0')
+                .plus(sentToSelf)
+                .toFixed();
+        } else {
+            summaryMap.set(dayTimestamp, {
+                time: dayTimestamp,
+                txs: 1,
+                received: received.toFixed(),
+                sent: sent.toFixed(),
+                sentToSelf: sentToSelf.toFixed(),
+                rates: {},
+            });
+        }
+    }
+
+    return Array.from(summaryMap.values()).sort((a, b) => a.time - b.time);
+};
 
 export const enhanceBlockchainAccountHistory = (
     data: BlockchainAccountBalanceHistory[],

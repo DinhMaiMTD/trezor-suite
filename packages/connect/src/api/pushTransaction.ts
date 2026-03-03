@@ -33,8 +33,13 @@ export default class PushTransaction extends AbstractMethod<'pushTransaction', P
         // validate backend
         isBackendSupported(coinInfo);
 
+        // CKB uses networkType 'bitcoin' but its serialized transactions are JSON, not hex
+        const isCkb =
+            coinInfo.shortcut?.toLowerCase() === 'ckb' ||
+            coinInfo.shortcut?.toLowerCase() === 'tckb';
         if (
             coinInfo.type === 'bitcoin' &&
+            !isCkb &&
             (typeof payload.tx !== 'string' || !/^[0-9A-Fa-f]*$/.test(payload.tx))
         ) {
             throw ERRORS.TypedError('Method_InvalidParameter', 'Transaction must be hexadecimal');

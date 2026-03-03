@@ -1,5 +1,10 @@
+import { isLocalBalanceHistoryCoin } from '@suite-common/graph';
 import { createThunk } from '@suite-common/redux-utils';
-import { selectBaseCurrency, selectIsElectrumBackendSelected } from '@suite-common/wallet-core';
+import {
+    selectAccountTransactions,
+    selectBaseCurrency,
+    selectIsElectrumBackendSelected,
+} from '@suite-common/wallet-core';
 import { AccountKey } from '@suite-common/wallet-types';
 import {
     getAccountKey,
@@ -17,6 +22,7 @@ import {
     type GraphScale,
 } from 'src/types/wallet/graph';
 import {
+    buildBalanceHistoryFromTransactions,
     enhanceBlockchainAccountHistory,
     ensureHistoryRates,
     isNetworkWithGraphFeature,
@@ -96,6 +102,51 @@ export const fetchAccountGraphData =
         });
 
         const baseCurrencyCode = selectBaseCurrency(getState());
+
+        // For coins that use local transaction-based balance history (e.g. CKB),
+        // build balance history from stored transactions instead of calling the backend API
+        // which doesn't support getAccountBalanceHistory.
+        if (isLocalBalanceHistoryCoin(account.symbol)) {
+            const transactions = selectAccountTransactions(getState(), account.key);
+
+            const balanceHistory = buildBalanceHistoryFromTransactions(
+                transactions,
+                account.symbol,
+            );
+
+            const isElectrumBackend = selectIsElectrumBackendSelected(
+                getState(),
+                account.symbol,
+            );
+            const responseWithRates = await ensureHistoryRates(
+                account.symbol,
+                balanceHistory,
+                baseCurrencyCode,
+                isElectrumBackend,
+            );
+
+            const enhancedResponse = enhanceBlockchainAccountHistory(
+                responseWithRates,
+                account.symbol,
+            );
+
+            dispatch({
+                type: ACCOUNT_GRAPH_SUCCESS,
+                payload: {
+                    account: {
+                        deviceState: account.deviceState,
+                        descriptor: account.descriptor,
+                        symbol: account.symbol,
+                    },
+                    data: enhancedResponse,
+                    isLoading: false,
+                    error: false,
+                },
+            });
+
+            return;
+        }
+
         const response = await TrezorConnect.blockchainGetAccountBalanceHistory({
             coin: account.symbol,
             identity: tryGetAccountIdentity(account),
