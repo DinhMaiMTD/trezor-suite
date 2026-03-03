@@ -7796,9 +7796,13 @@
                         "default": 0
                     }
                 },
+                "fee": {
+                    "type": "uint64",
+                    "id": 6
+                },
                 "chunkify": {
                     "type": "bool",
-                    "id": 6
+                    "id": 7
                 }
             }
         },
