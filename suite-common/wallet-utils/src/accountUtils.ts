@@ -55,7 +55,7 @@ import { isRbfBumpFeeTransaction } from './transactionUtils';
 const { SYSTEM_PROGRAM_PUBLIC_KEY } = solanaUtils;
 
 export const isUtxoBased = (account: Account) =>
-    account.networkType === 'bitcoin' || account.networkType === 'cardano';
+    account.networkType === 'bitcoin' || account.networkType === 'cardano' || account.networkType === 'ckb';
 
 export const isAccountSuccessful = (account: Account): account is SuccessfulAccount =>
     !account.failed;
@@ -196,7 +196,7 @@ export const getAccountTypeName = ({
 }: getAccountTypeNameProps) => {
     if (!networkType) return null;
 
-    if ((symbol === 'ckb' || symbol === 'tckb') && accountType === 'normal') {
+    if (networkType === 'ckb') {
         return 'TR_ACCOUNT_TYPE_ECDSA';
     }
 
@@ -819,6 +819,16 @@ export const getAccountSpecific = (accountInfo: Partial<AccountInfo>, networkTyp
         };
     }
 
+    if (networkType === 'ckb') {
+        return {
+            networkType,
+            misc: undefined,
+            marker: undefined,
+            stellarCursor: undefined,
+            page: accountInfo.page,
+        };
+    }
+
     return {
         networkType,
         misc: undefined,
@@ -1111,6 +1121,7 @@ export const isSameUtxo = (a: AccountUtxo, b: AccountUtxo) =>
 export const isAddressBasedNetwork = (networkType: NetworkType) => {
     if (networkType === 'bitcoin') return false;
     if (networkType === 'cardano') return false;
+    if (networkType === 'ckb') return false;
     if (networkType === 'ethereum') return true;
     if (networkType === 'tron') return true;
     if (networkType === 'ripple') return true;

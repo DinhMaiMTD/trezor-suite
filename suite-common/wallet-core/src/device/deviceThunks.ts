@@ -286,15 +286,14 @@ export const confirmAddressOnDeviceThunk = createThunk(
                 response = TrezorConnect.rippleGetAddress(params);
                 break;
             case 'bitcoin':
-                if (account.symbol === 'ckb' || account.symbol === 'tckb') {
-                    response = TrezorConnect.ckbGetAddress({
-                        ...params,
-                        network:
-                            account.symbol === 'tckb' ? 'Testnet' : undefined,
-                    });
-                } else {
-                    response = TrezorConnect.getAddress(params);
-                }
+                response = TrezorConnect.getAddress(params);
+                break;
+            case 'ckb':
+                response = TrezorConnect.ckbGetAddress({
+                    ...params,
+                    network:
+                        account.symbol === 'tckb' ? 'Testnet' : undefined,
+                });
                 break;
             case 'solana':
                 response = TrezorConnect.solanaGetAddress(params);

@@ -40,6 +40,7 @@ export type NetworkSymbolExtended = NetworkSymbol | (string & {});
 
 export type NetworkType =
     | 'bitcoin'
+    | 'ckb'
     | 'ethereum'
     | 'ripple'
     | 'cardano'

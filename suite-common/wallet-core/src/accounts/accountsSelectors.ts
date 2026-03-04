@@ -237,10 +237,10 @@ export const selectAccountFormattedBalance = createMemoizedSelector(
 
 export const selectFormattedAccountType = createMemoizedSelector([selectAccountByKey], account => {
     if (!account) return null;
-    const { networkType, accountType, symbol } = account;
+    const { networkType, accountType } = account;
 
-    // CKB uses ECDSA account derivation, avoid generic bitcoin "SegWit" label for `normal`.
-    if ((symbol === 'ckb' || symbol === 'tckb') && accountType === 'normal') {
+    // CKB uses ECDSA account derivation, avoid generic bitcoin label for `normal`.
+    if (networkType === 'ckb' && accountType === 'normal') {
         return 'ECDSA';
     }
 

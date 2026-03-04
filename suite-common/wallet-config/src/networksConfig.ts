@@ -670,7 +670,7 @@ export const networks = {
         symbol: 'ckb',
         displaySymbol: 'CKB',
         name: 'Nervos CKB',
-        networkType: 'bitcoin',
+        networkType: 'ckb',
         bip43Path: "m/44'/309'/i'", // ECDSA (default), CKB slip44=309
         decimals: 8,
         testnet: false,
@@ -685,7 +685,7 @@ export const networks = {
         symbol: 'tckb',
         displaySymbol: 'tCKB',
         name: 'Nervos CKB Testnet',
-        networkType: 'bitcoin',
+        networkType: 'ckb',
         bip43Path: "m/44'/309'/i'", // ECDSA (default), CKB slip44=309
         decimals: 8,
         testnet: true,

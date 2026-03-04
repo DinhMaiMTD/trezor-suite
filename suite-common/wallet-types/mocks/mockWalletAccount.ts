@@ -8,6 +8,7 @@ import {
     AccountNetworkSpecific,
     AccountNetworkSpecificBitcoin,
     AccountNetworkSpecificCardano,
+    AccountNetworkSpecificCkb,
     AccountNetworkSpecificEthereum,
     AccountNetworkSpecificRipple,
     AccountNetworkSpecificSolana,
@@ -71,6 +72,14 @@ export const networkSpecificDefaultStellar: AccountNetworkSpecificStellar = {
     networkType: 'stellar',
 };
 
+const networkSpecificDefaultCkb: AccountNetworkSpecificCkb = {
+    networkType: 'ckb',
+    misc: undefined,
+    marker: undefined,
+    stellarCursor: undefined,
+    page: { index: 1, size: 25, total: 1 },
+};
+
 const networkTypeMap: Record<NetworkSymbol, AccountNetworkSpecific> = {
     // Bitcoin-like
     btc: networkSpecificDefaultBitcoin,
@@ -108,8 +117,8 @@ const networkTypeMap: Record<NetworkSymbol, AccountNetworkSpecific> = {
     txlm: networkSpecificDefaultBitcoin,
 
     // CKB
-    ckb: networkSpecificDefaultBitcoin,
-    tckb: networkSpecificDefaultBitcoin,
+    ckb: networkSpecificDefaultCkb,
+    tckb: networkSpecificDefaultCkb,
 };
 
 type MandatoryAccountData = {

@@ -57,14 +57,6 @@ const getNormalizedTrezorShortcut = (shortcut: string, backendType?: string) => 
         return 'testnet';
     }
 
-    // CKB/tCKB use BTC/Testnet network identifiers with legacy blockbook-like backends.
-    if (shortcut === 'CKB') {
-        return 'BTC';
-    }
-    if (shortcut === 'tCKB') {
-        return 'TEST';
-    }
-
     return shortcut;
 };
 

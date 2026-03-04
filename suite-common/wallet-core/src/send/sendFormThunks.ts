@@ -176,10 +176,7 @@ export const composeSendFormTransactionFeeLevelsThunk = createThunk<
 
         const { networkType } = account;
 
-        // CKB has networkType 'bitcoin' but needs its own compose logic
-        const isCkb = account.symbol === 'ckb' || account.symbol === 'tckb';
-
-        if (isCkb) {
+        if (networkType === 'ckb') {
             response = await dispatch(
                 composeCkbTransactionFeeLevelsThunk({
                     formState,
@@ -295,9 +292,7 @@ const synchronizeSentTransactionThunk = createThunk(
                 dispatch(accountsActions.updateAccount(pendingAccount));
             }
         } else if (
-            selectedAccount.networkType === 'bitcoin' &&
-            selectedAccount.symbol !== 'ckb' &&
-            selectedAccount.symbol !== 'tckb'
+            selectedAccount.networkType === 'bitcoin'
         ) {
             dispatch(
                 addFakePendingTxThunk({
@@ -367,8 +362,8 @@ export const pushSendFormTransactionThunk = createThunk<
         const { token } = precomposedTransaction;
         const spentWithoutFee = !token
             ? new BigNumber(precomposedTransaction.totalSpent)
-                  .minus(precomposedTransaction.fee)
-                  .toString()
+                .minus(precomposedTransaction.fee)
+                .toString()
             : '0';
 
         const areSatoshisUsed = getAreSatoshisUsed(bitcoinAmountUnit, selectedAccount);
@@ -413,9 +408,9 @@ export const pushSendFormTransactionThunk = createThunk<
             } else {
                 const amount = token
                     ? subunitsToUnits({
-                          value: asAmountSubunit(new BigNumber(precomposedTransaction.totalSpent)),
-                          decimals: token.decimals,
-                      })
+                        value: asAmountSubunit(new BigNumber(precomposedTransaction.totalSpent)),
+                        decimals: token.decimals,
+                    })
                     : null;
 
                 // get total amount without fee OR token amount
@@ -423,11 +418,11 @@ export const pushSendFormTransactionThunk = createThunk<
                     token && amount
                         ? `${amount} ${token.symbol}`
                         : formatNetworkAmount(
-                              spentWithoutFee,
-                              selectedAccount.symbol,
-                              true,
-                              areSatoshisUsed,
-                          );
+                            spentWithoutFee,
+                            selectedAccount.symbol,
+                            true,
+                            areSatoshisUsed,
+                        );
                 dispatch(
                     notificationsActions.addToast({
                         type: 'tx-sent',
@@ -462,9 +457,9 @@ export const pushSendFormTransactionThunk = createThunk<
         return isSuccessfullyPushedTransaction(pushTxResponse)
             ? fulfillWithValue(pushTxResponse)
             : rejectWithValue({
-                  error: 'push-transaction-failed',
-                  metadata: pushTxResponse,
-              });
+                error: 'push-transaction-failed',
+                metadata: pushTxResponse,
+            });
     },
 );
 
@@ -575,11 +570,7 @@ export const signTransactionThunk = createThunk<
                 paymentRequests,
             };
 
-            // CKB has networkType 'bitcoin' but needs its own sign logic
-            const isCkb =
-                selectedAccount.symbol === 'ckb' || selectedAccount.symbol === 'tckb';
-
-            if (isCkb) {
+            if (networkType === 'ckb') {
                 response = await dispatch(signCkbSendFormTransactionThunk(thunkArguments));
             } else if (networkType === 'bitcoin') {
                 response = await dispatch(
@@ -718,8 +709,7 @@ export const enhancePrecomposedTransactionThunk = createThunk<
             selectedAccountNetwork.chainId
         ) {
             isTokenKnown = await fetch(
-                `https://data.trezor.io/firmware/eth-definitions/chain-id/${
-                    selectedAccountNetwork.chainId
+                `https://data.trezor.io/firmware/eth-definitions/chain-id/${selectedAccountNetwork.chainId
                 }/token-${enhancedPrecomposedTransaction.token.contract.substring(2).toLowerCase()}.dat`,
                 { method: 'HEAD' },
             )

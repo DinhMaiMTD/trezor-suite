@@ -106,8 +106,17 @@ export type AccountNetworkSpecificStellar = {
     page: undefined;
 };
 
+export type AccountNetworkSpecificCkb = {
+    networkType: 'ckb';
+    misc: undefined;
+    marker: undefined;
+    stellarCursor: undefined;
+    page: AccountInfo['page'];
+};
+
 export type AccountNetworkSpecific =
     | AccountNetworkSpecificBitcoin
+    | AccountNetworkSpecificCkb
     | AccountNetworkSpecificRipple
     | AccountNetworkSpecificCardano
     | AccountNetworkSpecificEthereum
@@ -118,13 +127,13 @@ export type AccountNetworkSpecific =
 // decides if account is using TrezorConnect/blockchain-link or other non-standard api
 export type AccountBackendSpecific =
     | {
-          backendType?: Exclude<BackendType, 'coinjoin'>;
-      }
+        backendType?: Exclude<BackendType, 'coinjoin'>;
+    }
     | {
-          backendType: Extract<BackendType, 'coinjoin'>;
-          status: 'initial' | 'ready' | 'error' | 'out-of-sync';
-          syncing?: boolean;
-      };
+        backendType: Extract<BackendType, 'coinjoin'>;
+        status: 'initial' | 'ready' | 'error' | 'out-of-sync';
+        syncing?: boolean;
+    };
 
 export type AccountFailureSpecific =
     | { failed: true; error: string }
@@ -203,11 +212,11 @@ export type UppercaseAccountType = Uppercase<AccountType>;
 
 export type WalletParams =
     | NonNullable<{
-          symbol: NetworkSymbol;
-          accountIndex: number;
-          accountType: AccountType | 'normal';
-          contractAddress?: string;
-      }>
+        symbol: NetworkSymbol;
+        accountIndex: number;
+        accountType: AccountType | 'normal';
+        contractAddress?: string;
+    }>
     | undefined;
 
 export interface ReceiveInfo {
