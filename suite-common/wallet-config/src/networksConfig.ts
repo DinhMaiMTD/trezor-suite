@@ -674,7 +674,7 @@ export const networks = {
         bip43Path: "m/44'/309'/i'", // ECDSA (default), CKB slip44=309
         decimals: 8,
         testnet: false,
-        explorer: getExplorerUrls('https://explorer.nervos.org', 'bitcoin'),
+        explorer: getExplorerUrls('https://explorer.nervos.org', 'ckb'),
         features: ['graph'],
         backendTypes: ['ckb'],
         accountTypes: {},
@@ -689,7 +689,7 @@ export const networks = {
         bip43Path: "m/44'/309'/i'", // ECDSA (default), CKB slip44=309
         decimals: 8,
         testnet: true,
-        explorer: getExplorerUrls('https://pudge.explorer.nervos.org', 'bitcoin'),
+        explorer: getExplorerUrls('https://pudge.explorer.nervos.org', 'ckb'),
         features: ['graph'],
         backendTypes: ['ckb'],
         accountTypes: {},
