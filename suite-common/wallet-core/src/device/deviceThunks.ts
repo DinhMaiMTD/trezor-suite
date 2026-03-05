@@ -293,6 +293,8 @@ export const confirmAddressOnDeviceThunk = createThunk(
                     ...params,
                     network:
                         account.symbol === 'tckb' ? 'Testnet' : undefined,
+                    sphincsplus:
+                        account.accountType === 'sphincsplus' || undefined,
                 });
                 break;
             case 'solana':

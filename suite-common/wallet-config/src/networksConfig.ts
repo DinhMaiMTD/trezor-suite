@@ -677,7 +677,12 @@ export const networks = {
         explorer: getExplorerUrls('https://explorer.nervos.org', 'ckb'),
         features: ['graph'],
         backendTypes: ['ckb'],
-        accountTypes: {},
+        accountTypes: {
+            sphincsplus: {
+                accountType: 'sphincsplus',
+                bip43Path: "m/44'/309'/i'/1'",
+            },
+        },
         coingeckoId: 'nervos-network',
         tradeCryptoId: 'nervos-network',
     },
@@ -692,7 +697,12 @@ export const networks = {
         explorer: getExplorerUrls('https://pudge.explorer.nervos.org', 'ckb'),
         features: ['graph'],
         backendTypes: ['ckb'],
-        accountTypes: {},
+        accountTypes: {
+            sphincsplus: {
+                accountType: 'sphincsplus',
+                bip43Path: "m/44'/309'/i'/1'",
+            },
+        },
         coingeckoId: undefined,
         tradeCryptoId: undefined,
     },

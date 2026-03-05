@@ -7670,6 +7670,10 @@
                 "chunkify": {
                     "type": "bool",
                     "id": 4
+                },
+                "sphincsplus": {
+                    "type": "bool",
+                    "id": 5
                 }
             }
         },

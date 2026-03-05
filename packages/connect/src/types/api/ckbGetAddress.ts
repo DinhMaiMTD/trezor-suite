@@ -9,6 +9,7 @@ export const CkbGetAddress = Type.Composite([
     Type.Object({
         network: Type.Optional(Type.String()),
         coin: Type.Optional(Type.String()),
+        sphincsplus: Type.Optional(Type.Boolean()),
     }),
 ]);
 

@@ -193,11 +193,17 @@ export const DeviceCommands = (deviceTypedCall: TypedCallProvider) => {
     ): Promise<AccountDescriptor> => {
         // CKB: get address from device via CKBGetAddress
         if (coinInfo.shortcut === 'CKB' || coinInfo.shortcut === 'tCKB') {
-            const ckbPath = [...address_n, 0, 0]; // append change=0, address_index=0
+            // Detect SPHINCS+ account type by path length:
+            // ECDSA:     m/44'/309'/i' = 3 segments -> address_n has 3 elements
+            // SPHINCS+:  m/44'/309'/i'/1' = 4 segments -> address_n has 4 elements
+            const isSphincsPlus = address_n.length >= 4;
+            const basePath = isSphincsPlus ? address_n.slice(0, 3) : address_n;
+            const ckbPath = [...basePath, 0, 0]; // append change=0, address_index=0
             const { message } = await typedCall('CKBGetAddress', 'CKBAddress', {
                 address_n: ckbPath,
                 show_display: false,
                 network: coinInfo.shortcut === 'tCKB' ? 'Testnet' : undefined,
+                sphincsplus: isSphincsPlus || undefined,
             });
 
             return {

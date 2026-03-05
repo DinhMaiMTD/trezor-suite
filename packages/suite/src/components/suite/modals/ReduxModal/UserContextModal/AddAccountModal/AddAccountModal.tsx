@@ -116,13 +116,13 @@ export const AddAccountModal = ({
     const currentType = selectedAccount?.accountType ?? 'normal';
     const scopedAccounts = selectedNetwork
         ? accounts
-              .filter(
-                  a =>
-                      a.deviceState === device.state?.staticSessionId &&
-                      a.symbol === selectedNetwork.symbol &&
-                      a.accountType === currentType,
-              )
-              .toSorted((a, b) => a.index - b.index)
+            .filter(
+                a =>
+                    a.deviceState === device.state?.staticSessionId &&
+                    a.symbol === selectedNetwork.symbol &&
+                    a.accountType === currentType,
+            )
+            .toSorted((a, b) => a.index - b.index)
         : [];
     const emptyAccounts = selectedNetwork ? scopedAccounts.filter(a => a.empty) : [];
 
@@ -229,6 +229,24 @@ export const AddAccountModal = ({
             dispatch(accountsActions.createAccount(newAccount));
         } else {
             dispatch(accountsActions.changeAccountVisibility(account));
+
+            // After making a hidden empty account visible (e.g. first SPHINCS+ account),
+            // also create a hidden next-index account so the Add button remains enabled.
+            // This mirrors how discovery creates empty buffer accounts (visible=false).
+            // The account becomes visible only when the user explicitly clicks "Add".
+            const nextAccount = await prepareNewAccountPayload({
+                accountType: account.accountType,
+                networkSymbol: account.symbol,
+                index: account.index + 1,
+                backendType: account.backendType !== 'coinjoin' ? account.backendType : undefined,
+                selectedAccount,
+                accountTypes,
+                device,
+            });
+
+            if (!(nextAccount instanceof Error)) {
+                dispatch(accountsActions.createAccount({ ...nextAccount, visible: false }));
+            }
         }
 
         onConfirm?.();
@@ -291,101 +309,101 @@ export const AddAccountModal = ({
 
         return isAccountTypeSelectionStep
             ? {
-                  heading: (
-                      <Translation
-                          id="TR_ADD_NETWORK_ACCOUNT"
-                          values={{
-                              network: selectedNetwork.name,
-                          }}
-                      />
-                  ),
-                  description: <Translation id="TR_SELECT_TYPE" />,
-                  children: (
-                      <AccountTypeSelect
-                          selectedAccountType={selectedAccount}
-                          accountTypes={accountTypes}
-                          onSelectAccountType={setSelectedAccount}
-                          networkType={selectedNetwork.networkType}
-                          symbol={selectedNetwork.symbol}
-                      />
-                  ),
-                  onBackClick: !isBackClickDisabled
-                      ? () => setSelectedNetwork(undefined)
-                      : undefined,
-              }
+                heading: (
+                    <Translation
+                        id="TR_ADD_NETWORK_ACCOUNT"
+                        values={{
+                            network: selectedNetwork.name,
+                        }}
+                    />
+                ),
+                description: <Translation id="TR_SELECT_TYPE" />,
+                children: (
+                    <AccountTypeSelect
+                        selectedAccountType={selectedAccount}
+                        accountTypes={accountTypes}
+                        onSelectAccountType={setSelectedAccount}
+                        networkType={selectedNetwork.networkType}
+                        symbol={selectedNetwork.symbol}
+                    />
+                ),
+                onBackClick: !isBackClickDisabled
+                    ? () => setSelectedNetwork(undefined)
+                    : undefined,
+            }
             : {
-                  heading: <Translation id="TR_ADD_ACCOUNT" />,
-                  children: (
-                      <>
-                          <NetworksWrapper>
-                              {!symbol && (
-                                  <SelectNetwork
-                                      heading={<Translation id="TR_ACTIVATED_COINS" />}
-                                      networks={enabledNetworks}
-                                      selectedNetworks={selectedNetworks}
-                                      handleNetworkSelection={selectNetwork}
-                                  />
-                              )}
-                              <SelectNetwork
-                                  heading={
-                                      isAccountActivated ? (
-                                          <Translation id="TR_ACTIVATED_COINS" />
-                                      ) : (
-                                          <Translation id="TR_INACTIVE_COINS" />
-                                      )
-                                  }
-                                  networks={symbol ? visibleNetworks : disabledMainnetNetworks}
-                                  selectedNetworks={selectedNetworks}
-                                  handleNetworkSelection={selectNetwork}
-                              />
-                          </NetworksWrapper>
-                          {!symbol && !!disabledTestnetNetworks.length && useTestnetNetworks && (
-                              <CollapsibleBox
-                                  heading={
-                                      <Tooltip
-                                          content={
-                                              <Translation id="TR_TESTNET_COINS_DESCRIPTION" />
-                                          }
-                                          hasIcon
-                                      >
-                                          <Translation id="TR_TESTNET_COINS" />
-                                      </Tooltip>
-                                  }
-                                  data-testid="@modal/account/activate_more_coins"
-                                  margin={{ top: spacings.md }}
-                              >
-                                  <CoinList
-                                      onToggle={selectNetwork}
-                                      networks={disabledTestnetNetworks}
-                                      enabledNetworks={selectedNetworks}
-                                  />
-                              </CollapsibleBox>
-                          )}
-                          {!symbol && showUnsupportedCoins && (
-                              <CollapsibleBox
-                                  heading={
-                                      <Tooltip
-                                          hasIcon
-                                          content={
-                                              <Translation id="TR_UNSUPPORTED_COINS_DESCRIPTION" />
-                                          }
-                                      >
-                                          <Translation id="TR_UNSUPPORTED_COINS" />
-                                      </Tooltip>
-                                  }
-                                  data-testid="@modal/account/activate_more_coins"
-                                  margin={{ top: spacings.md }}
-                              >
-                                  <CoinList
-                                      onToggle={selectNetwork}
-                                      networks={unsupportedMainnets}
-                                      enabledNetworks={selectedNetworks}
-                                  />
-                              </CollapsibleBox>
-                          )}
-                      </>
-                  ),
-              };
+                heading: <Translation id="TR_ADD_ACCOUNT" />,
+                children: (
+                    <>
+                        <NetworksWrapper>
+                            {!symbol && (
+                                <SelectNetwork
+                                    heading={<Translation id="TR_ACTIVATED_COINS" />}
+                                    networks={enabledNetworks}
+                                    selectedNetworks={selectedNetworks}
+                                    handleNetworkSelection={selectNetwork}
+                                />
+                            )}
+                            <SelectNetwork
+                                heading={
+                                    isAccountActivated ? (
+                                        <Translation id="TR_ACTIVATED_COINS" />
+                                    ) : (
+                                        <Translation id="TR_INACTIVE_COINS" />
+                                    )
+                                }
+                                networks={symbol ? visibleNetworks : disabledMainnetNetworks}
+                                selectedNetworks={selectedNetworks}
+                                handleNetworkSelection={selectNetwork}
+                            />
+                        </NetworksWrapper>
+                        {!symbol && !!disabledTestnetNetworks.length && useTestnetNetworks && (
+                            <CollapsibleBox
+                                heading={
+                                    <Tooltip
+                                        content={
+                                            <Translation id="TR_TESTNET_COINS_DESCRIPTION" />
+                                        }
+                                        hasIcon
+                                    >
+                                        <Translation id="TR_TESTNET_COINS" />
+                                    </Tooltip>
+                                }
+                                data-testid="@modal/account/activate_more_coins"
+                                margin={{ top: spacings.md }}
+                            >
+                                <CoinList
+                                    onToggle={selectNetwork}
+                                    networks={disabledTestnetNetworks}
+                                    enabledNetworks={selectedNetworks}
+                                />
+                            </CollapsibleBox>
+                        )}
+                        {!symbol && showUnsupportedCoins && (
+                            <CollapsibleBox
+                                heading={
+                                    <Tooltip
+                                        hasIcon
+                                        content={
+                                            <Translation id="TR_UNSUPPORTED_COINS_DESCRIPTION" />
+                                        }
+                                    >
+                                        <Translation id="TR_UNSUPPORTED_COINS" />
+                                    </Tooltip>
+                                }
+                                data-testid="@modal/account/activate_more_coins"
+                                margin={{ top: spacings.md }}
+                            >
+                                <CoinList
+                                    onToggle={selectNetwork}
+                                    networks={unsupportedMainnets}
+                                    enabledNetworks={selectedNetworks}
+                                />
+                            </CollapsibleBox>
+                        )}
+                    </>
+                ),
+            };
     };
 
     return (

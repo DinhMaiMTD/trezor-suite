@@ -197,6 +197,8 @@ export const getAccountTypeName = ({
     if (!networkType) return null;
 
     if (networkType === 'ckb') {
+        if (accountType === 'sphincsplus') return 'TR_ACCOUNT_TYPE_SPHINCSPLUS';
+
         return 'TR_ACCOUNT_TYPE_ECDSA';
     }
 

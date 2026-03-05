@@ -38,6 +38,7 @@ export default class CkbGetAddress extends AbstractMethod<'ckbGetAddress', Param
                 show_display: typeof batch.showOnTrezor === 'boolean' ? batch.showOnTrezor : true,
                 chunkify: typeof batch.chunkify === 'boolean' ? batch.chunkify : false,
                 network: batch.network,
+                sphincsplus: batch.sphincsplus,
             };
         });
 
@@ -79,7 +80,7 @@ export default class CkbGetAddress extends AbstractMethod<'ckbGetAddress', Param
         };
     }
 
-    async _call({ address_n, show_display, chunkify, network }: Params) {
+    async _call({ address_n, show_display, chunkify, network, sphincsplus }: Params) {
         const cmd = this.device.getCommands();
 
         // Extend 3-segment account path to 5-segment address path (append /0/0)
@@ -91,6 +92,7 @@ export default class CkbGetAddress extends AbstractMethod<'ckbGetAddress', Param
             show_display,
             chunkify,
             network,
+            sphincsplus,
         });
 
         return response.message;

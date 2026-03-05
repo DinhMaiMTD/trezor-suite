@@ -109,25 +109,25 @@ export const AccountsList = ({
     const filteredAccounts =
         searchString || coinFilter
             ? accounts.filter(account => {
-                  const { key, accountType, symbol, index } = account;
-                  const accountLabelOld = Object.prototype.hasOwnProperty.call(accountLabels, key)
-                      ? accountLabels[key]
-                      : getDefaultAccountLabel({ accountType, symbol, index });
+                const { key, accountType, symbol, index } = account;
+                const accountLabelOld = Object.prototype.hasOwnProperty.call(accountLabels, key)
+                    ? accountLabels[key]
+                    : getDefaultAccountLabel({ accountType, symbol, index });
 
-                  const { accountDescriptor, networkSymbol } = parseAccountKey(account.key);
+                const { accountDescriptor, networkSymbol } = parseAccountKey(account.key);
 
-                  const accountLabel =
-                      findSuiteSyncAccountLabel({
-                          accounts: suiteSyncAccounts,
-                          accountDescriptor,
-                          networkSymbol,
-                      })?.label ?? accountLabelOld;
+                const accountLabel =
+                    findSuiteSyncAccountLabel({
+                        accounts: suiteSyncAccounts,
+                        accountDescriptor,
+                        networkSymbol,
+                    })?.label ?? accountLabelOld;
 
-                  return accountSearchFn(account, searchString, {
-                      coinsFilter: coinFilter,
-                      metadataAccountLabel: accountLabel,
-                  });
-              })
+                return accountSearchFn(account, searchString, {
+                    coinsFilter: coinFilter,
+                    metadataAccountLabel: accountLabel,
+                });
+            })
             : accounts;
 
     const filterAccountsByType = (type: Account['accountType']) =>
@@ -140,6 +140,8 @@ export const AccountsList = ({
     const segwitAccounts = filterAccountsByType('segwit');
     const legacyAccounts = filterAccountsByType('legacy');
     const ledgerAccounts = filterAccountsByType('ledger');
+    const ecdsaAccounts = filterAccountsByType('ecdsa');
+    const sphincsplusAccounts = filterAccountsByType('sphincsplus');
 
     const hasMultipleAccounts = filteredAccounts.some(a => a.accountType !== 'normal');
 
@@ -199,6 +201,8 @@ export const AccountsList = ({
                 {buildGroup('segwit', segwitAccounts)}
                 {buildGroup('legacy', legacyAccounts)}
                 {buildGroup('ledger', ledgerAccounts)}
+                {buildGroup('ecdsa', ecdsaAccounts)}
+                {buildGroup('sphincsplus', sphincsplusAccounts)}
             </Column>
         );
     }

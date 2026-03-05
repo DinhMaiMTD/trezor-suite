@@ -111,4 +111,4 @@ export const getPublicKeyLabel = (path: number[], coinInfo?: BitcoinNetworkInfo)
 };
 
 export const isUtxoBased = (coinInfo: CoinInfo) =>
-    coinInfo.type === 'bitcoin' || coinInfo.shortcut === 'ADA' || coinInfo.shortcut === 'tADA';
+    coinInfo.type === 'bitcoin' || coinInfo.shortcut === 'ADA' || coinInfo.shortcut === 'tADA' || coinInfo.shortcut === 'CKB' || coinInfo.shortcut === 'tCKB';

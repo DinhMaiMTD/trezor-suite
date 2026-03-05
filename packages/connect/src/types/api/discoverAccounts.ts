@@ -19,6 +19,8 @@ export const ACCOUNT_TYPES = [
     { symbol: 'regtest', type: 'legacy', path: "m/44'/1'/i'" },
     { symbol: 'ckb', type: 'normal', path: "m/44'/309'/i'" }, // ECDSA
     { symbol: 'tckb', type: 'normal', path: "m/44'/309'/i'" }, // ECDSA
+    { symbol: 'ckb', type: 'sphincsplus', path: "m/44'/309'/i'/1'" }, // SPHINCS+ (extra segment for differentiation)
+    { symbol: 'tckb', type: 'sphincsplus', path: "m/44'/309'/i'/1'" }, // SPHINCS+ (extra segment for differentiation)
     { symbol: 'eth', type: 'normal', path: "m/44'/60'/0'/0/i" },
     { symbol: 'eth', type: 'ledger', path: "m/44'/60'/i'/0/0" },
     { symbol: 'eth', type: 'legacy', path: "m/44'/60'/0'/i" },

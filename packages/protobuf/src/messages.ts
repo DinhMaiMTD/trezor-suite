@@ -265,14 +265,14 @@ type CommonTxInputType = {
 
 export type TxInputType =
     | (CommonTxInputType & {
-          address_n: number[];
-          script_type?: InternalInputScriptType;
-      })
+        address_n: number[];
+        script_type?: InternalInputScriptType;
+    })
     | (CommonTxInputType & {
-          address_n?: typeof undefined;
-          script_type: 'EXTERNAL';
-          script_pubkey: string;
-      });
+        address_n?: typeof undefined;
+        script_type: 'EXTERNAL';
+        script_pubkey: string;
+    });
 
 export type TxInput = TxInputType;
 
@@ -292,47 +292,47 @@ export type ChangeOutputScriptType = Exclude<OutputScriptType, 'PAYTOOPRETURN'>;
 
 export type TxOutputType =
     | {
-          address: string;
-          address_n?: typeof undefined;
-          script_type: 'PAYTOADDRESS';
-          amount: UintType;
-          multisig?: MultisigRedeemScriptType;
-          orig_hash?: string;
-          orig_index?: number;
-          payment_req_index?: number;
-      }
+        address: string;
+        address_n?: typeof undefined;
+        script_type: 'PAYTOADDRESS';
+        amount: UintType;
+        multisig?: MultisigRedeemScriptType;
+        orig_hash?: string;
+        orig_index?: number;
+        payment_req_index?: number;
+    }
     | {
-          address?: typeof undefined;
-          address_n: number[];
-          script_type?: ChangeOutputScriptType;
-          amount: UintType;
-          multisig?: MultisigRedeemScriptType;
-          orig_hash?: string;
-          orig_index?: number;
-          payment_req_index?: number;
-      }
+        address?: typeof undefined;
+        address_n: number[];
+        script_type?: ChangeOutputScriptType;
+        amount: UintType;
+        multisig?: MultisigRedeemScriptType;
+        orig_hash?: string;
+        orig_index?: number;
+        payment_req_index?: number;
+    }
     // NOTE: the type was loosened for compatibility (issue #10474)
     // It is not originally intended to use address instead of address_n with change output
     | {
-          address: string;
-          address_n?: typeof undefined;
-          script_type?: ChangeOutputScriptType;
-          amount: UintType;
-          multisig?: MultisigRedeemScriptType;
-          orig_hash?: string;
-          orig_index?: number;
-          payment_req_index?: number;
-      }
+        address: string;
+        address_n?: typeof undefined;
+        script_type?: ChangeOutputScriptType;
+        amount: UintType;
+        multisig?: MultisigRedeemScriptType;
+        orig_hash?: string;
+        orig_index?: number;
+        payment_req_index?: number;
+    }
     | {
-          address?: typeof undefined;
-          address_n?: typeof undefined;
-          amount: '0' | 0;
-          op_return_data: string;
-          script_type: 'PAYTOOPRETURN';
-          orig_hash?: string;
-          orig_index?: number;
-          payment_req_index?: number;
-      };
+        address?: typeof undefined;
+        address_n?: typeof undefined;
+        amount: '0' | 0;
+        op_return_data: string;
+        script_type: 'PAYTOOPRETURN';
+        orig_hash?: string;
+        orig_index?: number;
+        payment_req_index?: number;
+    };
 
 export type TxOutput = TxOutputType;
 
@@ -371,29 +371,29 @@ export type PrevOutput = {
 
 export type TxAckResponse =
     | {
-          inputs: Array<TxInputType | PrevInput>;
-      }
+        inputs: Array<TxInputType | PrevInput>;
+    }
     | {
-          bin_outputs: TxOutputBinType[];
-      }
+        bin_outputs: TxOutputBinType[];
+    }
     | {
-          outputs: TxOutputType[];
-      }
+        outputs: TxOutputType[];
+    }
     | {
-          extra_data: string;
-      }
+        extra_data: string;
+    }
     | {
-          version?: number;
-          lock_time?: number;
-          inputs_cnt: number;
-          outputs_cnt: number;
-          extra_data?: string;
-          extra_data_len?: number;
-          timestamp?: number;
-          version_group_id?: number;
-          expiry?: number;
-          branch_id?: number;
-      };
+        version?: number;
+        lock_time?: number;
+        inputs_cnt: number;
+        outputs_cnt: number;
+        extra_data?: string;
+        extra_data_len?: number;
+        timestamp?: number;
+        version_group_id?: number;
+        expiry?: number;
+        branch_id?: number;
+    };
 
 export type TxAck = {
     tx: TxAckResponse;
@@ -2587,6 +2587,7 @@ export type CKBGetAddress = {
     show_display?: boolean;
     network?: string;
     chunkify?: boolean;
+    sphincsplus?: boolean;
 };
 
 export type CKBAddress = {
@@ -3021,9 +3022,9 @@ export type MessagePayload<T extends MessageKey = MessageKey> = MessageType[T];
 
 export type MessageResponse<T extends MessageKey = MessageKey> = T extends any
     ? {
-          type: T;
-          message: MessagePayload<T>;
-      }
+        type: T;
+        message: MessagePayload<T>;
+    }
     : never;
 
 export type TypedCall = {

@@ -4021,6 +4021,7 @@ export const CKBGetAddress = Type.Object(
         show_display: Type.Optional(Type.Boolean()),
         network: Type.Optional(Type.String()),
         chunkify: Type.Optional(Type.Boolean()),
+        sphincsplus: Type.Optional(Type.Boolean()),
     },
     { $id: 'CKBGetAddress' },
 );
