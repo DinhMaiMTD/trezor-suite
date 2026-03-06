@@ -31,6 +31,7 @@ export type CKBCellInput = Static<typeof CKBCellInput>;
 export const CKBCellInput = Type.Object({
     since: Type.String(),
     previousOutput: CKBOutPoint,
+    capacity: Type.Optional(Type.String()),
 });
 
 export type CKBCellDep = Static<typeof CKBCellDep>;
@@ -56,6 +57,7 @@ export const CKBSignTransaction = Type.Object({
     network: Type.Optional(Type.String()),
     fee: Type.Optional(Type.Number()),
     chunkify: Type.Optional(Type.Boolean()),
+    sphincsplus: Type.Optional(Type.Boolean()),
 });
 
 export type CKBSignedTx = Static<typeof CKBSignedTx>;

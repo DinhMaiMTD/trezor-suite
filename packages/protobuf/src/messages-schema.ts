@@ -4043,6 +4043,7 @@ export const CKBCellInput = Type.Object(
         previous_output_tx_hash: Type.String(), // 32-byte transaction hash (hex)
         previous_output_index: Type.Number(), // output index
         since: Type.Optional(Type.Uint()), // since field for time-lock, default 0
+        capacity: Type.Optional(Type.Uint()), // capacity of the input cell in shannons (for CKB_TX_MESSAGE_ALL)
     },
     { $id: 'CKBCellInput' },
 );
@@ -4085,6 +4086,7 @@ export const CKBSignTx = Type.Object(
         cell_deps_count: Type.Optional(Type.Number()),
         fee: Type.Optional(Type.Number()),
         chunkify: Type.Optional(Type.Boolean()),
+        sphincsplus: Type.Optional(Type.Boolean()),
     },
     { $id: 'CKBSignTx' },
 );

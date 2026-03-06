@@ -7704,6 +7704,10 @@
                     "options": {
                         "default": 0
                     }
+                },
+                "capacity": {
+                    "type": "uint64",
+                    "id": 4
                 }
             }
         },
@@ -7807,6 +7811,10 @@
                 "chunkify": {
                     "type": "bool",
                     "id": 7
+                },
+                "sphincsplus": {
+                    "type": "bool",
+                    "id": 8
                 }
             }
         },

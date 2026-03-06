@@ -83,9 +83,12 @@ export default class CkbGetAddress extends AbstractMethod<'ckbGetAddress', Param
     async _call({ address_n, show_display, chunkify, network, sphincsplus }: Params) {
         const cmd = this.device.getCommands();
 
-        // Extend 3-segment account path to 5-segment address path (append /0/0)
+        // Normalize to 5-segment address path:
+        // ECDSA:    m/44'/309'/i'     (3 segments) → m/44'/309'/i'/0/0
+        // SPHINCS+: m/44'/309'/i'/1'  (4 segments) → m/44'/309'/i'/0/0 (with sphincsplus flag)
+        const basePath = address_n.length >= 4 ? address_n.slice(0, 3) : address_n;
         const fullPath =
-            address_n.length === 3 ? [...address_n, 0, 0] : address_n;
+            basePath.length === 3 ? [...basePath, 0, 0] : address_n;
 
         const response = await cmd.typedCall('CKBGetAddress', 'CKBAddress', {
             address_n: fullPath,

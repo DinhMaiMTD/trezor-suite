@@ -46,9 +46,16 @@ export const thpLoop = async ({
     let phase = receiveOnly ? ThpLoopState.READ_RESPONSE : ThpLoopState.WRITE_REQUEST;
     let writeAttempt = 0;
     let readAttempt = 0;
+    let chunkErrorCount = 0;
+    const MAX_CHUNK_ERRORS = 500; // Large messages (e.g., SPHINCS+ 17KB) may need up to ~280 packets
     const deadline = Date.now() + THP_ACK_DEADLINE;
     const isDeadlineReached = () => Date.now() >= deadline;
-    const thpStateError = (message: string) => error({ error: THP_STATE_ERROR, message });
+    const thpStateError = (message: string) => {
+        debug(`ThpStateError: ${message}`);
+        console.error(`[THP] ThpStateError: ${message} (caller=${caller}, phase=${ThpLoopState[phase]}, writeAttempt=${writeAttempt}, readAttempt=${readAttempt}, chunkErrors=${chunkErrorCount})`);
+
+        return error({ error: THP_STATE_ERROR, message });
+    };
     let result;
 
     while (phase !== ThpLoopState.DONE) {
@@ -101,6 +108,8 @@ export const thpLoop = async ({
                     THP_ACK_TIMEOUT,
                 );
                 if (!ackResult.success) {
+                    debug(`READ_ACK error: ${ackResult.error} (message: ${ackResult.message})`);
+                    console.warn(`[THP] READ_ACK error: ${ackResult.error}, message: ${ackResult.message}`);
                     switch (ackResult.error) {
                         case 'UnexpectedChunk':
                             break; // keep reading
@@ -163,12 +172,22 @@ export const thpLoop = async ({
 
                 const receiveResult = await receiveExpectedMessage(apiRead, thpState, signal);
                 if (!receiveResult.success) {
+                    debug(`READ_RESPONSE error: ${receiveResult.error} (message: ${receiveResult.message})`);
+                    console.warn(`[THP] READ_RESPONSE error: ${receiveResult.error}, message: ${receiveResult.message}, readAttempt: ${readAttempt}`);
                     switch (receiveResult.error) {
                         case 'UnexpectedChunk':
+                            // Don't count garbage/continuation data as a real retry attempt,
+                            // but limit total chunk errors to prevent infinite loops
+                            readAttempt--;
+                            if (++chunkErrorCount > MAX_CHUNK_ERRORS) {
+                                return thpStateError('ChunkErrorsExceeded');
+                            }
                             break; // keep reading
                         case 'UnexpectedCRC':
                             return thpStateError(receiveResult.error);
                         case 'UnexpectedChannel':
+                            // Don't count channel mismatch as a real retry attempt
+                            readAttempt--;
                             break; // keep reading. TODO: try to close unknown channel
                         case 'UnexpectedRecentMessage':
                             if (receiveOnly) {

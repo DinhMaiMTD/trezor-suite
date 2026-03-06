@@ -2598,6 +2598,7 @@ export type CKBCellInput = {
     previous_output_tx_hash: string;
     previous_output_index: number;
     since?: UintType;
+    capacity?: UintType;
 };
 
 export type CKBCellOutput = {
@@ -2625,6 +2626,7 @@ export type CKBSignTx = {
     cell_deps_count?: number;
     fee?: number;
     chunkify?: boolean;
+    sphincsplus?: boolean;
 };
 
 export enum CKBTxRequestType {

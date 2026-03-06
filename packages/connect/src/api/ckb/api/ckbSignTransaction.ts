@@ -32,6 +32,7 @@ type CKBSignTxInitialParams = {
     cell_deps_count: number;
     fee: number;
     chunkify: boolean;
+    sphincsplus?: boolean;
 };
 
 // Streaming loop: process CKBTxRequest from the device
@@ -128,16 +129,21 @@ export default class CkbSignTransaction extends AbstractMethod<
         AssertWeak(CKBSignTransactionSchema, payload);
 
         const path = validatePath(payload.path, 3);
-        const { transaction, network, fee, chunkify } = payload;
+        const { transaction, network, fee, chunkify, sphincsplus } = payload;
 
-        // Extend 3-segment account path to 5-segment address path (append /0/0)
-        const fullPath = path.length === 3 ? [...path, 0, 0] : path;
+        // Normalize to 5-segment address path:
+        // ECDSA:    m/44'/309'/i'     (3 segments) → m/44'/309'/i'/0/0
+        // SPHINCS+: m/44'/309'/i'/1'  (4 segments) → m/44'/309'/i'/0/0 (with sphincsplus flag)
+        const isSphincsPlus = sphincsplus || path.length >= 4;
+        const basePath = path.length >= 4 ? path.slice(0, 3) : path;
+        const fullPath = basePath.length === 3 ? [...basePath, 0, 0] : path;
 
         // Prepare inputs for streaming
         this.inputs = transaction.inputs.map(input => ({
             previous_output_tx_hash: stripHex(input.previousOutput.txHash),
             previous_output_index: input.previousOutput.index,
             since: Number(input.since || '0'),
+            capacity: input.capacity ? Number(input.capacity) : undefined,
         }));
 
         // Prepare outputs for streaming
@@ -171,6 +177,7 @@ export default class CkbSignTransaction extends AbstractMethod<
             cell_deps_count: this.cellDeps.length,
             fee: fee || 0,
             chunkify: typeof chunkify === 'boolean' ? chunkify : false,
+            sphincsplus: isSphincsPlus || undefined,
         };
     }
 

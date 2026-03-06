@@ -74,6 +74,8 @@ export const receiveExpectedMessage = async (
 
     if (!receiveResult.success) {
         // apiRead received gibberish for example continuation packet or empty data
+        console.warn(`[THP] receiveExpectedMessage failed: error=${receiveResult.error}, message=${receiveResult.message}`);
+
         if (receiveResult.error === PROTOCOL_MALFORMED) {
             return error({ error: 'UnexpectedChunk' });
         }

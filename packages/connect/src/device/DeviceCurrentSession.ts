@@ -316,6 +316,7 @@ export class DeviceCurrentSession implements TypedCallProvider {
         } else {
             // res.message is not propagated to higher levels, only logged here. webusb/node-bridge may return message with additional information
             logger.warn('Received transport error', result.error, result.message);
+            console.error(`[DeviceCurrentSession] Transport error for '${name}': error=${result.error}, message=${result.message}`);
         }
 
         return result.success ? success(result.payload) : fail(result.message || result.error);
